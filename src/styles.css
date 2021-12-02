@@ -1,1 +1,31 @@
 /* You can add global styles to this file, and also import other style files */
+@import "material-icons/iconfont/filled.css";
+
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+body,
+html {
+  background-color: #181818;
+  color: white;
+}
+
+.scroll-bar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.scroll-bar::-webkit-scrollbar-track {
+  background-color: #181818;
+  border-radius: 100px;
+}
+
+.scroll-bar::-webkit-scrollbar-thumb {
+  border-radius: 100px;
+  background-color: #8070d4;
+}
+
+.blur-sides {
+  box-shadow: 0 0 8px 8px #181818 inset;
+}

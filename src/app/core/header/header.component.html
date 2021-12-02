@@ -1,0 +1,88 @@
+<div class="flex items-center bg-primary-700 h-16 px-10 gap-8 justify-between" *ngIf="route | async as route">
+  <a [routerLink]="['']" class="h-full py-2">
+    <img src="assets/images/G.svg" class="h-full" />
+  </a>
+  <div class="relative w-full flex items-center h-full">
+    <div class="flex w-full items-center justify-around gap-8 h-full" [ngClass]="{ 'opacity-0': searching }">
+      <a
+        [routerLink]="['browse', link]"
+        title="{{ link }}"
+        *ngFor="let link of headerLinks"
+        class="relative cursor-pointer overflow-hidden group text-center h-full"
+      >
+        <p
+          [ngClass]="{ '-translate-y-full': route.params.slug === link }"
+          class="h-full grid content-center text-xl transform group-hover:-translate-y-full duration-300 ease-out capitalize"
+        >
+          {{ link.replace("-", " ") }}
+        </p>
+        <img
+          [ngClass]="{ '-translate-y-full': route.params.slug === link }"
+          class="absolute w-full h-full grid content-center transform group-hover:-translate-y-full duration-300 ease-out p-2 fill-current"
+          src="assets/images/{{ link }}.svg"
+        />
+      </a>
+    </div>
+    <form
+      autocomplete="off"
+      #f="ngForm"
+      #search
+      (ngSubmit)="onSubmit(f)"
+      novalidate
+      class="absolute w-full z-50"
+      [ngClass]="{ 'opacity-0 pointer-events-none': !searching }"
+    >
+      <input
+        name="search"
+        class="form-control"
+        ngModel
+        required
+        (keyup)="onKeyUp($event)"
+        #searchInput
+        minlength="4"
+        placeholder="Search Games"
+        class="
+          bg-gray-700
+          p-2
+          px-4
+          rounded-full
+          outline-none
+          hover:text-black hover:bg-gray-100
+          focus:text-black focus:bg-gray-100
+          duration-500
+          w-full
+          placeholder-current
+        "
+      />
+
+      <div *ngIf="searchResults" class="absolute bg-black p-3 mt-2 grid gap-1 rounded-md">
+        <a
+          (click)="selectSearchResult(res.slug)"
+          *ngFor="let res of searchResults"
+          class="hover:bg-gray-600 duration-300 flex gap-2 cursor-pointer items-center"
+        >
+          <img src="{{ getImage(res.background_image, 'small') }}" alt="{{ res.background_image }}" class="w-12 h-12" />
+          <div>
+            <div class="flex gap-2">
+              <img
+                title="{{ platform.platform.name }}"
+                *ngFor="let platform of res.parent_platforms"
+                src="assets/images/{{ platform.platform.slug }}.svg"
+                alt="{{ platform.platform.name }}"
+                class="h-3"
+              />
+            </div>
+            <p>{{ res.name }}</p>
+          </div>
+        </a>
+      </div>
+    </form>
+  </div>
+
+  <div class="flex gap-3 items-center flex-1">
+    <span (click)="doSearch()" class="material-icons cursor-pointer">{{ !searching ? "search" : "close" }}</span>
+    <span class="material-icons cursor-pointer">person_outline</span>
+    <span class="material-icons cursor-pointer">notifications_none</span>
+    <span class="material-icons cursor-pointer">add_circle_outline</span>
+  </div>
+</div>

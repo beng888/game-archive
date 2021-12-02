@@ -1,0 +1,34 @@
+<div class="bg-gradient-to-l from-primary-700/50 flex justify-between items-center">
+  <p class="text-3xl pl-6">Release Calendar</p>
+
+  <div class="text-lg">
+    <div class="bg-gradient-to-l h-full from-primary-600 p-6 flex gap-6 justify-end items-center">
+      <span (click)="browseYears()" [ngClass]="{ hidden: selectedYears === 0 }" class="material-icons cursor-pointer"
+        >keyboard_double_arrow_left</span
+      >
+      <a
+        [routerLink]="['/games', 'calendar', year, selectedMonth]"
+        *ngFor="let year of Years[selectedYears]"
+        [ngClass]="{ 'border-white': selectedYear === year }"
+        class="border-b border-transparent"
+        >{{ year }}</a
+      >
+      <span (click)="browseYears('right')" [ngClass]="{ hidden: selectedYears === Years.length - 1 }" class="material-icons cursor-pointer"
+        >keyboard_double_arrow_right</span
+      >
+    </div>
+    <div class="p-6 flex gap-6 justify-end">
+      <a
+        [routerLink]="['/games', 'calendar', selectedYear, month.month]"
+        queryParamsHandling="merge"
+        *ngFor="let month of months | async"
+        [ngClass]="{
+          'text-primary-300 after:absolute after:inset-0 after:w-4 after:mx-auto after:translate-y-full after:border-dark-500 after:border-l-[15px] after:border-r-[15px] after:border-b-[20px] after:border-l-[transparent] after:border-r-[transparent]':
+            selectedMonth === month.month
+        }"
+        class="relative content-none"
+        >{{ ABBR[month.month] }}</a
+      >
+    </div>
+  </div>
+</div>

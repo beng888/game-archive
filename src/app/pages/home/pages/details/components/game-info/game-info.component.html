@@ -1,0 +1,15 @@
+<div class="p-3">
+  <div class="flex gap-1 text-xs">
+    <a class="text-gray-300 hover:text-gray-100" [routerLink]="['']">Home</a> >
+    <a class="text-gray-300 hover:text-gray-100" [routerLink]="['', 'games']">Games</a> >
+    <p class="text-gray-400">{{ info.name_original }}</p>
+  </div>
+
+  <p class="text-3xl">{{ info.name_original }}</p>
+
+  <p class="capitalize">
+    {{ getRating(info.ratings).title }}
+  </p>
+
+  <div></div>
+</div>

@@ -1,0 +1,7 @@
+<app-filter></app-filter>
+
+<app-calendar *ngIf="isCalender"></app-calendar>
+
+<div class="max-w-6xl mx-auto my-12 grid grid-cols-3 gap-6">
+  <app-game-card *ngFor="let game of games$ | async" [game]="game"> </app-game-card>
+</div>

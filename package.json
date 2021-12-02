@@ -18,6 +18,13 @@
     "@angular/platform-browser": "~12.2.0",
     "@angular/platform-browser-dynamic": "~12.2.0",
     "@angular/router": "~12.2.0",
+    "@full-fledged/alerts": "^12.0.0",
+    "@ngrx/effects": "^12.5.1",
+    "@ngrx/router-store": "^12.5.1",
+    "@ngrx/store": "^12.5.1",
+    "@ngrx/store-devtools": "^12.5.1",
+    "lodash-es": "^4.17.21",
+    "material-icons": "^1.10.2",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
@@ -26,7 +33,9 @@
     "@angular-devkit/build-angular": "~12.2.5",
     "@angular/cli": "~12.2.5",
     "@angular/compiler-cli": "~12.2.0",
+    "@ngrx/schematics": "^12.5.1",
     "@types/jasmine": "~3.8.0",
+    "@types/lodash-es": "^4.17.5",
     "@types/node": "^12.11.1",
     "jasmine-core": "~3.8.0",
     "karma": "~6.3.0",
@@ -34,6 +43,7 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
+    "tailwindcss": "^2.2.19",
     "typescript": "~4.3.5"
   }
 }

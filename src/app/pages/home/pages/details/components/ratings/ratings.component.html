@@ -1,0 +1,22 @@
+<ng-container *ngIf="getRatingOrder(ratings) as ratings">
+  <div class="rounded-md overflow-hidden">
+    <div class="bg-gray-700 flex justify-around text-center">
+      <div *ngFor="let rating of ratings" class="hover:bg-gray-600 duration-300 cursor-pointer flex-1 p-1">
+        <p class="text-gray-400">{{ rating?.count }}</p>
+        <p class="text-sm" [ngStyle]="{ color: ratingColors[rating?.title || ''] }">{{ rating?.title || "" }}</p>
+      </div>
+    </div>
+    <div class="h-8 flex w-full">
+      <div
+        *ngFor="let rating of ratings; last as L; first as F"
+        class="duration-300 hover:drop-shadow-2xl hover:brightness-125 hover:scale-105 transform hover:z-10 cursor-pointer"
+        [ngStyle]="{ width: rating?.percent + '%', backgroundColor: ratingColors[rating?.title || ''] }"
+      ></div>
+    </div>
+  </div>
+  <!-- <div>{{ ratings | json }}</div> -->
+</ng-container>
+<!-- [ngClass]="{ hidden: hoveredClip !== i, 'ring ring-purple-500': selectedMedia === i }" -->
+<!-- 'linear-gradient(black ' + percent + '}%, white ' + percent + '%' -->
+<!-- [ngStyle]="{ width: rating.percent + '%', backgroundColor: getRatingColor(rating.title) }" -->
+<!-- [style.color]="getRatingColor(rating.title)"  -->
