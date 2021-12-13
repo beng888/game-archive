@@ -7,8 +7,8 @@
 
 body,
 html {
-  background-color: #181818;
-  color: white;
+  background-color: #293136;
+  color: #aaa;
 }
 
 .scroll-bar::-webkit-scrollbar {
@@ -17,7 +17,7 @@ html {
 }
 
 .scroll-bar::-webkit-scrollbar-track {
-  background-color: #181818;
+  background-color: #293136;
   border-radius: 100px;
 }
 
@@ -27,5 +27,13 @@ html {
 }
 
 .blur-sides {
-  box-shadow: 0 0 8px 8px #181818 inset;
+  box-shadow: 0 0 8px 8px #293136 inset;
+}
+
+.link {
+  @apply text-gray-300 hover:text-gray-100;
+}
+
+.link_ {
+  @apply underline text-gray-300 hover:text-gray-100 mr-1;
 }

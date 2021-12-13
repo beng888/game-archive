@@ -23,7 +23,9 @@ export class AlertEffects {
           fromRawgActions.loadBrowseFailure,
           fromRawgActions.loadGameDetailsFailure
         ),
-        tap((action) => this.alertService.danger(action.message))
+        tap((action) => {
+          this.alertService.danger(action.message || action.messages || '');
+        })
       ),
     { dispatch: false }
   );

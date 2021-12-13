@@ -20,7 +20,12 @@ export class BrowseCardComponent implements OnInit {
 
   selectQuery = (item: Browse) => {
     this.router.navigate(['games'], {
-      queryParams: { [this.params]: item.id },
+      queryParams: {
+        [this.params]:
+          this.params === 'platforms' || this.params === 'stores'
+            ? item.id
+            : item.slug,
+      },
     });
   };
 

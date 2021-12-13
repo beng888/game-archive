@@ -5,9 +5,15 @@ import { GameCardComponent } from './components/game-card/game-card.component';
 import { SelectComponent } from './components/select/select.component';
 import { RouterModule } from '@angular/router';
 import { BrowseCardComponent } from './components/browse-card/browse-card.component';
+import { ImageViewerComponent } from './components/image-viewer/image-viewer.component';
 
 @NgModule({
-  declarations: [GameCardComponent, SelectComponent, BrowseCardComponent],
+  declarations: [
+    GameCardComponent,
+    SelectComponent,
+    BrowseCardComponent,
+    ImageViewerComponent,
+  ],
   imports: [CommonModule, FormsModule, RouterModule],
   exports: [
     CommonModule,
@@ -17,6 +23,7 @@ import { BrowseCardComponent } from './components/browse-card/browse-card.compon
     RouterModule,
     BrowseCardComponent,
     ReactiveFormsModule,
+    ImageViewerComponent,
   ],
 })
 export class SharedModule {}

@@ -21,7 +21,7 @@ export const loadParentPlatformsSuccess = createAction(
 
 export const loadParentPlatformsFailure = createAction(
   '[Header Component] Load Parent Platforms Failure',
-  props<{ message: string }>()
+  (data: any) => data
 );
 
 /* ------------------------------- LOAD GENRES ------------------------------ */
@@ -35,7 +35,7 @@ export const loadGenresSuccess = createAction(
 
 export const loadGenresFailure = createAction(
   '[Header Component] Load Genres Failure',
-  props<{ message: string }>()
+  (data: any) => data
 );
 
 /* ------------------------------- LOAD GAMES ------------------------------- */
@@ -47,20 +47,19 @@ export const loadGamesSuccess = createAction(
 
 export const loadGamesFailure = createAction(
   '[Header Component] Load Games Failure',
-  props<{ message: string }>()
+  (data: any) => data
 );
 
 /* ------------------------------- LOAD BROWSE ------------------------------- */
 
 export const loadBrowseSuccess = createAction(
   '[Browser Page] Load Browse Success',
-
   (data: Res<Browse>) => data
 );
 
 export const loadBrowseFailure = createAction(
   '[Browser Page] Load Browse Failure',
-  props<{ message: string }>()
+  (data: any) => data
 );
 
 /* ---------------------------- LOAD GAME DETAILS --------------------------- */
@@ -72,5 +71,5 @@ export const loadGameDetailsSuccess = createAction(
 
 export const loadGameDetailsFailure = createAction(
   '[Header Component] Load Game Details Failure',
-  props<{ message: string }>()
+  (data: any) => data
 );

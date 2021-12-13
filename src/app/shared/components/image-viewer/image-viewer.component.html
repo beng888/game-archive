@@ -1,0 +1,7 @@
+<div class="fixed inset-0">
+  <img class="absolute" *ngFor="let image of images" src="{{ image.image }}" />
+  <div class="z-10 absolute inset-0 flex justify-between items-center text-2xl p-8">
+    <span class="material-icons">arrow_back_ios</span>
+    <span class="material-icons">arrow_forward_ios</span>
+  </div>
+</div>

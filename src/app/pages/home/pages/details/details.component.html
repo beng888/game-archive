@@ -1,11 +1,11 @@
-<div *ngIf="details$ | async as details" class="px-10 relative">
+<div *ngIf="details$ | async as details" class="px-10 relative mt-12">
   <div
     [ngStyle]="{ 'background-image': 'url(' + details.background_image_additional + ')' }"
-    class="h-screen w-full blur-sides object-cover absolute left-0 -top-8 opacity-30 z-[-10]"
+    class="h-screen w-full blur-sides object-cover fixed left-0 top-0 opacity-30 pointer-events-none"
   ></div>
   <!-- <img class="blur-sides" src="{{ details.background_image_additional }}" alt="{{ details.background_image_additional }}" /> -->
 
-  <div class="grid grid-cols-3 mt-8">
+  <div class="grid grid-cols-3 mt-8 gap-4">
     <div>
       <div class="sticky top-4">
         <app-media-card [trailers]="details.trailers" [background_image]="details.background_image"></app-media-card>

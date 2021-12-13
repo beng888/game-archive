@@ -105,11 +105,32 @@ export interface Trailer {
   preview: string;
 }
 
-interface Parent_Platforms {
+export interface Parent_Platforms {
   platform: {
     name: string;
     slug: string;
   };
+}
+
+export interface Developer {
+  id: number;
+  name: string;
+  slug: string;
+  games_count: number;
+  image_background: string;
+}
+export interface Publisher {
+  id: number;
+  name: string;
+  slug: string;
+  games_count: number;
+  image_background: string;
+}
+
+export interface Esrb_rating {
+  id: number;
+  name: string;
+  slug: string;
 }
 
 interface List_Game {

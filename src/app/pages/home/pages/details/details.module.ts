@@ -7,6 +7,7 @@ import { MediaCardComponent } from './components/media-card/media-card.component
 import { AddBuyButtonsComponent } from './components/add-buy-buttons/add-buy-buttons.component';
 import { RatingsComponent } from './components/ratings/ratings.component';
 import { GameInfoComponent } from './components/game-info/game-info.component';
+import { SharedModule } from '@shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,6 @@ import { GameInfoComponent } from './components/game-info/game-info.component';
     RatingsComponent,
     GameInfoComponent,
   ],
-  imports: [CommonModule, DetailsRoutingModule],
+  imports: [CommonModule, DetailsRoutingModule, SharedModule],
 })
 export class DetailsModule {}
