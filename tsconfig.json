@@ -1,35 +1,35 @@
 /* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
-  "compileOnSave": false,
-  "compilerOptions": {
-    "baseUrl": "./",
-    "paths": {
-      "@core/*": ["src/app/core/*"],
-      "@features/*": ["src/app/features/*"],
-      "@shared/*": ["src/app/shared/*"],
-      "@environment/*": ["src/environments/*"],
-      "@pages/*": ["src/app/pages/*"],
-      "@store/*": ["src/app/store/*"]
+    "compileOnSave": false,
+    "compilerOptions": {
+        "baseUrl": "./",
+        "paths": {
+            "@core/*": ["src/app/core/*"],
+            "@features/*": ["src/app/features/*"],
+            "@shared/*": ["src/app/shared/*"],
+            "@environment/*": ["src/environments/*"],
+            "@pages/*": ["src/app/pages/*"],
+            "@store/*": ["src/app/store/*"]
+        },
+        "outDir": "./dist/out-tsc",
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "sourceMap": true,
+        "declaration": false,
+        "downlevelIteration": true,
+        "experimentalDecorators": true,
+        "moduleResolution": "node",
+        "importHelpers": true,
+        "target": "es2017",
+        "module": "es2020",
+        "lib": ["es2018", "es6", "dom", "es2015.iterable"]
     },
-    "outDir": "./dist/out-tsc",
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "sourceMap": true,
-    "declaration": false,
-    "downlevelIteration": true,
-    "experimentalDecorators": true,
-    "moduleResolution": "node",
-    "importHelpers": true,
-    "target": "es2017",
-    "module": "es2020",
-    "lib": ["es2018", "dom"]
-  },
-  "angularCompilerOptions": {
-    "enableI18nLegacyMessageIdFormat": false,
-    "strictInjectionParameters": true,
-    "strictInputAccessModifiers": true,
-    "strictTemplates": true
-  }
+    "angularCompilerOptions": {
+        "enableI18nLegacyMessageIdFormat": false,
+        "strictInjectionParameters": true,
+        "strictInputAccessModifiers": true,
+        "strictTemplates": true
+    }
 }

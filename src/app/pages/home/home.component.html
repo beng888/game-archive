@@ -2,6 +2,39 @@
 
 <app-calendar *ngIf="isCalender"></app-calendar>
 
-<div class="max-w-6xl mx-auto my-12 grid grid-cols-3 gap-6">
-  <app-game-card *ngFor="let game of games$ | async" [game]="game"> </app-game-card>
+<div *ngIf="games$ | async as games">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between my-4 text-white z-20">
+        <p class="text-white text-xl font-semibold">Showing {{ games.length }} Games</p>
+
+        <div class="flex gap-2 items-center">
+            Display Options:
+            <span
+                (click)="view = v"
+                *ngFor="let v of views"
+                [ngClass]="{ 'brightness-75': v !== view }"
+                class="material-icons bg-dark-400 text-4xl rounded-lg cursor-pointer hover:brightness-100 duration-300 px-1"
+                >{{ v }}</span
+            >
+        </div>
+    </div>
+    <div
+        class="grid max-w-6xl mx-auto"
+        [ngClass]="{
+            'justify-center gap-12': view === 'crop_square',
+            'sm:grid-cols-2 gap-6 lg:grid-cols-3': view === 'grid_view',
+            'gap-2': view === 'view_list',
+            'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 max-w-full': view === 'grid_on'
+        }"
+    >
+        <ng-container *ngFor="let game of games; last as L">
+            <app-game-card [view]="view" *ngIf="!L; else Last" [game]="game"> </app-game-card>
+            <ng-template #Last>
+                <app-game-card *ngIf="next$ | async as next" observeVisibility> </app-game-card>
+            </ng-template>
+        </ng-container>
+    </div>
 </div>
+
+<!-- [debounceTime]="300"
+(visible)="onVisible(next)"
+[game]="game" -->

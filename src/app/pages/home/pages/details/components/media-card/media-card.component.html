@@ -1,53 +1,47 @@
 <div>
-  <ng-container *ngIf="trailers.length > 0; else BG">
-    <div class="w-full relative">
-      <video
-        #mainVideoEl
-        *ngIf="trailers[selectedMedia]?.data?.max as video"
-        [autoplay]="true"
-        [muted]="true"
-        [loop]="true"
-        controls
-        class="absolute w-full h-full"
-      >
-        <source src="{{ video }}" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
-      <img src="{{ trailers[selectedMedia]?.preview }}" alt="{{ trailers[selectedMedia]?.preview }}" />
-    </div>
+    <ng-container *ngIf="Array.isArray(trailers) && trailers.length; else BG">
+        <div class="w-full relative">
+            <video #mainVideoEl [autoplay]="true" [muted]="true" [loop]="true" controls class="absolute w-full h-full bg-black">
+                <source src="{{ trailers[selectedMedia].data.max }}" type="video/mp4" />
+                Your browser does not support the video tag.
+            </video>
+            <img src="{{ trailers[selectedMedia]?.preview }}" alt="{{ trailers[selectedMedia]?.preview }}" />
 
-    <div class="flex h-24 py-1 px-2 bg-gray-900 gap-1 overflow-x-auto scroll-bar">
-      <ng-container *ngFor="let trailer of trailers; let i = index">
-        <video
-          [ngClass]="{ hidden: hoveredClip !== i, 'ring ring-purple-500': selectedMedia === i }"
-          (click)="selectMedia(i)"
-          (mouseover)="clipHovered(i)"
-          (mouseleave)="clipBlurred()"
-          #videoEl
-          [muted]="true"
-          [loop]="true"
-          class="cursor-pointer"
-          title="{{ trailer.name }}"
-        >
-          <source src="{{ trailer.data?.['480'] }}" type="video/mp4" />
-          clipBlurred Your browser does not support the video tag.
-        </video>
-        <img
-          [ngClass]="{ hidden: hoveredClip === i, 'ring ring-purple-500': selectedMedia === i }"
-          (click)="selectMedia(i)"
-          (mouseover)="clipHovered(i)"
-          src="{{ trailer.preview }}"
-          alt="{{ trailer.preview }}"
-          class="cursor-pointer"
-        />
-      </ng-container>
-    </div>
-  </ng-container>
-  <ng-template #BG>
-    <img src="{{ background_image }}" alt="{{ background_image }}" />
-  </ng-template>
+            <p>{{ trailers[selectedMedia]?.data?.max }}</p>
+        </div>
 
-  <!-- <ng-template #SS>
+        <div class="flex h-24 py-1 px-2 bg-gray-900 gap-1 overflow-x-auto scroll-bar">
+            <ng-container *ngFor="let trailer of trailers; let i = index">
+                <video
+                    [ngClass]="{ hidden: hoveredClip !== i, 'border-2 border-purple-500': selectedMedia === i }"
+                    (click)="selectMedia(i)"
+                    (mouseover)="clipHovered(i)"
+                    (mouseleave)="clipBlurred()"
+                    #videoEl
+                    [muted]="true"
+                    [loop]="true"
+                    class="cursor-pointer"
+                    title="{{ trailer.name }}"
+                >
+                    <source src="{{ trailer.data?.['480'] }}" type="video/mp4" />
+                    clipBlurred Your browser does not support the video tag.
+                </video>
+                <img
+                    [ngClass]="{ hidden: hoveredClip === i, 'border-2 border-purple-500': selectedMedia === i }"
+                    (click)="selectMedia(i)"
+                    (mouseover)="clipHovered(i)"
+                    src="{{ trailer.preview }}"
+                    alt="{{ trailer.preview }}"
+                    class="cursor-pointer"
+                />
+            </ng-container>
+        </div>
+    </ng-container>
+    <ng-template #BG>
+        <img src="{{ background_image && getImage(background_image) }}" alt="{{ background_image }}" />
+    </ng-template>
+
+    <!-- <ng-template #SS>
     <div class="w-full min-h-[220px] flex items-center">
       <img src="{{ getImage(screenshots[selectedMedia].image, 'small') }}" alt="{{ screenshots[selectedMedia].image }}" />
     </div>

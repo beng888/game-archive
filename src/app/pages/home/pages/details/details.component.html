@@ -1,19 +1,26 @@
-<div *ngIf="details$ | async as details" class="px-10 relative mt-12">
-  <div
-    [ngStyle]="{ 'background-image': 'url(' + details.background_image_additional + ')' }"
-    class="h-screen w-full blur-sides object-cover fixed left-0 top-0 opacity-30 pointer-events-none"
-  ></div>
-  <!-- <img class="blur-sides" src="{{ details.background_image_additional }}" alt="{{ details.background_image_additional }}" /> -->
+<div *ngIf="details$ | async as details" class="px-2 xl:px-10 relative mt-12">
+    <div
+        [ngStyle]="{ 'background-image': 'url(' + details.background_image_additional + ')' }"
+        class="h-screen w-full blur-sides fixed left-0 top-0 opacity-30 pointer-events-none bg-no-repeat bg-cover"
+    ></div>
+    <!-- <img class="blur-sides" src="{{ details.background_image_additional }}" alt="{{ details.background_image_additional }}" /> -->
 
-  <div class="grid grid-cols-3 mt-8 gap-4">
-    <div>
-      <div class="sticky top-4">
-        <app-media-card [trailers]="details.trailers" [background_image]="details.background_image"></app-media-card>
+    <div class="grid grid-cols-2 lg:grid-cols-3 mt-8 gap-4">
+        <div class="col-span-2 lg:col-span-1">
+            <div class="sticky top-4 max-w-2xl mx-auto">
+                <app-media-card [trailers]="details.trailers" [background_image]="details.background_image"></app-media-card>
 
-        <app-add-buy-buttons [stores]="details.stores"></app-add-buy-buttons>
-        <app-ratings [ratings]="details.ratings"></app-ratings>
-      </div>
+                <app-add-buy-buttons [stores]="details.stores" [vendors]="details.vendors"></app-add-buy-buttons>
+                <app-ratings [ratings]="details.ratings"></app-ratings>
+            </div>
+        </div>
+        <div class="col-span-2 z-10">
+            <app-game-info [info]="details"></app-game-info>
+            <app-game-posts
+                *ngIf="Array.isArray(details.reddit_posts) && details.reddit_posts.length"
+                [posts]="details.reddit_posts"
+                [next]="details.next_posts_page"
+            ></app-game-posts>
+        </div>
     </div>
-    <app-game-info class="col-span-2" [info]="details"></app-game-info>
-  </div>
 </div>

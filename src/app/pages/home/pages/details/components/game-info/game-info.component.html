@@ -1,151 +1,197 @@
 <div>
-  <div class="flex gap-1 text-xs">
-    <a class="link" [routerLink]="['']">Home</a> > <a class="link" [routerLink]="['', 'games']">Games</a> >
-    <a href="{{ info.website }}" target="blank" class="link">{{ info.name_original }}</a>
-  </div>
-
-  <div class="flex py-6 pb-2 gap-2 items-center">
-    <div class="flex gap-2">
-      <img
-        *ngFor="let platform of info.parent_platforms"
-        title="{{ platform.platform.name }}"
-        src="assets/images/{{ platform.platform.slug }}.svg"
-        alt="{{ platform.platform.name }}"
-        class="h-3"
-      />
+    <div class="flex gap-1 text-xs">
+        <a class="link" [routerLink]="['']">Home</a> > <a class="link" [routerLink]="['', 'games']">Games</a> >
+        <a href="{{ info.website }}" target="blank" class="link">{{ info.name_original }}</a>
     </div>
-    <p class="capitalize text-sm">{{ getRating(info.ratings).title }}</p>
-  </div>
 
-  <p class="text-3xl font-semibold">{{ info.name_original }}</p>
-
-  <p class="flex gap-2 mt-2">
-    <span class="font-semibold">{{ info.playtime }} </span>Hours Average Playtime
-  </p>
-  <p class="flex gap-2">
-    <span class="font-semibold">{{ info.reviews_count }} </span>Member Reviews
-  </p>
-</div>
-<p class="text-2xl font-semibold mt-6">About {{ info.name_original }}</p>
-
-<p [ngClass]="!readMore ? 'max-h-24' : 'max-h-screen'" class="overflow-hidden duration-1000 my-4">
-  {{ info.description_raw }}
-</p>
-
-<p class="my-6 cursor-pointer w-max" (click)="readMore = !readMore">{{ !readMore ? "+ Read More" : "- Read Less" }}</p>
-
-<p class="text-2xl font-semibold">Additional Information</p>
-
-<div class="grid grid-cols-2 gap-2">
-  <div>
-    <p class="font-semibold mb-1">Platforms</p>
-    <p>
-      <a
-        [routerLink]="['/', 'games']"
-        [queryParams]="{ platforms: platform.platform.id }"
-        class="link_"
-        *ngFor="let platform of info.platforms; last as L"
-        >{{ platform.platform.name }}{{ !L ? "," : "" }}</a
-      >
-    </p>
-  </div>
-  <div *ngIf="info.metacritic">
-    <p class="font-semibold mb-1">Meta score</p>
-    <p
-      class="rounded-md px-1 border w-max"
-      [style.color]="getColor(info.metacritic)"
-      [style.borderColor]="getColor(info.metacritic) || 'transparent'"
-    >
-      {{ info.metacritic || "" }}
-    </p>
-  </div>
-  <div>
-    <p class="font-semibold mb-1">Genres</p>
-    <p>
-      <a [routerLink]="['/', 'games']" [queryParams]="{ genres: genre.slug }" class="link_" *ngFor="let genre of info.genres; last as L"
-        >{{ genre.name }}{{ !L ? "," : "" }}</a
-      >
-    </p>
-  </div>
-  <div>
-    <p class="font-semibold mb-1">Release</p>
-    <p>
-      {{ info.tba ? "TBA" : info.released }}
-    </p>
-  </div>
-  <div>
-    <p class="font-semibold mb-1">Developers</p>
-    <p>
-      <a
-        [routerLink]="['/', 'games']"
-        [queryParams]="{ developers: developer.slug }"
-        class="link_"
-        *ngFor="let developer of info.developers; last as L"
-        >{{ developer.name }}{{ !L ? "," : "" }}</a
-      >
-    </p>
-  </div>
-  <div>
-    <p class="font-semibold mb-1">Publishers</p>
-    <p>
-      <a
-        [routerLink]="['/', 'games']"
-        [queryParams]="{ publishers: publisher.slug }"
-        class="link_"
-        *ngFor="let publisher of info.publishers; last as L"
-        >{{ publisher.name }}{{ !L ? "," : "" }}</a
-      >
-    </p>
-  </div>
-  <div>
-    <p class="font-semibold mb-1">Age Rating</p>
-    <p>
-      {{ info.esrb_rating ? info.esrb_rating.name : "No Rating" }}
-    </p>
-  </div>
-  <div *ngIf="info.website">
-    <p class="font-semibold mb-1">Website</p>
-    <p>
-      <a href="{{ info.website }}" target="blank" class="link_">{{ info.name_original }}</a>
-    </p>
-  </div>
-  <div *ngIf="info.reddit_url">
-    <p class="font-semibold mb-1">Reddit</p>
-    <p>
-      <a href="{{ info.reddit_url }}" target="blank" class="link_">{{ info.reddit_url }}</a>
-    </p>
-  </div>
-  <div *ngIf="info.metacritic_url">
-    <p class="font-semibold mb-1">Metacritic</p>
-    <p>
-      <a href="{{ info.metacritic_url }}" target="blank" class="link_">{{ info.metacritic_url }}</a>
-    </p>
-  </div>
-  <div class="col-span-2">
-    <p class="font-semibold mb-1">Tags</p>
-    <p>
-      <a [routerLink]="['/', 'games']" [queryParams]="{ tags: tag.slug }" class="link_" *ngFor="let tag of info.tags; last as L"
-        >{{ tag.name }}{{ !L ? "," : "" }}</a
-      >
-    </p>
-  </div>
-</div>
-
-<div class="my-6">
-  <p class="text-2xl font-semibold mb-6">{{ info.name_original }} Screenshots</p>
-
-  <div class="flex h-32 gap-4 overflow-x-auto scroll-bar">
-    <img
-      (click)="activeImage = i"
-      *ngFor="let screenshot of info.screenshots; index as i"
-      src="{{ getImage(screenshot.image, 'small') }}"
-      class="h-full rounded-md cursor-pointer"
-    />
-    <div *ngIf="activeImage !== null" class="fixed inset-0 bg-black">
-      <span (click)="activeImage = null" class="material-icons fixed right-4 top-4 cursor-pointer">close</span>
-      <img [attr.src]="activeImage !== null && info.screenshots[activeImage].image" />
+    <div class="flex py-6 pb-2 gap-2 items-center">
+        <div class="flex gap-2">
+            <img
+                *ngFor="let platform of info?.parent_platforms"
+                title="{{ platform?.platform?.name }}"
+                src="assets/images/{{ platform?.platform?.slug }}.svg"
+                alt="{{ platform?.platform?.name }}"
+                class="h-3"
+            />
+        </div>
+        <p class="capitalize text-sm">{{ getRating(info.ratings).title }}</p>
     </div>
-  </div>
 
-  <!-- <app-image-viewer [images]="info.screenshots"></app-image-viewer> -->
+    <p class="text-3xl font-semibold">{{ info.name_original }}</p>
+
+    <p class="flex gap-2 mt-2">
+        <span class="font-semibold">{{ info.playtime }} </span>Hours Average Playtime
+    </p>
+    <p class="flex gap-2">
+        <span class="font-semibold">{{ info.reviews_count }} </span>Member Reviews
+    </p>
+    <p class="text-2xl font-semibold mt-6">About {{ info.name_original }}</p>
+
+    <div readMore [innerText]="info.description"></div>
+
+    <!-- <p [ngClass]="!readMore ? 'max-h-24' : 'max-h-screen'" class="overflow-hidden duration-1000 my-4">
+        {{ info.description_raw }}
+    </p>
+
+    <p class="my-6 cursor-pointer w-max" (click)="readMore = !readMore">{{ !readMore ? "+ Read More" : "- Read Less" }}</p> -->
+
+    <p class="text-2xl font-semibold">Additional Information</p>
+
+    <div class="grid grid-cols-2 gap-2">
+        <div>
+            <p class="font-semibold mb-1">Platforms</p>
+            <p>
+                <a
+                    [routerLink]="['/', 'games']"
+                    [queryParams]="{ platforms: platform.platform.id }"
+                    class="link_"
+                    *ngFor="let platform of info.platforms; last as L"
+                    >{{ platform.platform.name }}{{ !L ? "," : "" }}</a
+                >
+            </p>
+        </div>
+        <div *ngIf="info.metacritic">
+            <p class="font-semibold mb-1">Meta score</p>
+            <p
+                class="rounded-md px-1 border w-max"
+                [style.color]="getColor(info.metacritic)"
+                [style.borderColor]="getColor(info.metacritic) || 'transparent'"
+            >
+                {{ info.metacritic || "" }}
+            </p>
+        </div>
+        <div>
+            <p class="font-semibold mb-1">Genres</p>
+            <p>
+                <a
+                    [routerLink]="['/', 'games']"
+                    [queryParams]="{ genres: genre.slug }"
+                    class="link_"
+                    *ngFor="let genre of info.genres; last as L"
+                    >{{ genre.name }}{{ !L ? "," : "" }}</a
+                >
+            </p>
+        </div>
+        <div>
+            <p class="font-semibold mb-1">Release</p>
+            <p>
+                {{ info.tba ? "TBA" : info.released }}
+            </p>
+        </div>
+        <div>
+            <p class="font-semibold mb-1">Developers</p>
+            <p>
+                <a
+                    [routerLink]="['/', 'games']"
+                    [queryParams]="{ developers: developer.slug }"
+                    class="link_"
+                    *ngFor="let developer of info.developers; last as L"
+                    >{{ developer.name }}{{ !L ? "," : "" }}</a
+                >
+            </p>
+        </div>
+        <div>
+            <p class="font-semibold mb-1">Publishers</p>
+            <p>
+                <a
+                    [routerLink]="['/', 'games']"
+                    [queryParams]="{ publishers: publisher.slug }"
+                    class="link_"
+                    *ngFor="let publisher of info.publishers; last as L"
+                    >{{ publisher.name }}{{ !L ? "," : "" }}</a
+                >
+            </p>
+        </div>
+        <div>
+            <p class="font-semibold mb-1">Age Rating</p>
+            <p>
+                {{ info.esrb_rating ? info.esrb_rating.name : "No Rating" }}
+            </p>
+        </div>
+        <div *ngIf="info.website">
+            <p class="font-semibold mb-1">Website</p>
+            <p>
+                <a href="{{ info.website }}" target="blank" class="link_">{{ info.name_original }}</a>
+            </p>
+        </div>
+        <div *ngIf="info.reddit_url">
+            <p class="font-semibold mb-1">Reddit</p>
+            <p>
+                <a href="{{ info.reddit_url }}" target="blank" class="link_">{{ info.reddit_url }}</a>
+            </p>
+        </div>
+        <div *ngIf="info.metacritic_url">
+            <p class="font-semibold mb-1">Metacritic</p>
+            <p>
+                <a href="{{ info.metacritic_url }}" target="blank" class="link_">{{ info.metacritic_url }}</a>
+            </p>
+        </div>
+        <div class="col-span-2">
+            <p class="font-semibold mb-1">Tags</p>
+            <p>
+                <a [routerLink]="['/', 'games']" [queryParams]="{ tags: tag.slug }" class="link_" *ngFor="let tag of info.tags; last as L"
+                    >{{ tag.name }}{{ !L ? "," : "" }}</a
+                >
+            </p>
+        </div>
+    </div>
+
+    <div class="my-6">
+        <p class="text-2xl font-semibold mb-6">{{ info.name_original }} Screenshots</p>
+
+        <div (click)="onClick($event)" class="flex h-32 gap-4 overflow-x-auto scroll-bar">
+            <div class="w-[2000px] whitespace-nowrap">
+                Sit ipsum eiusmod nostrud duis. Sit consectetur tempor ex irure laboris. Magna ullamco pariatur nostrud ad mollit. Et
+                adipisicing non sint quis Lorem non elit nisi ad. Elit esse duis ad tempor labore laborum eu aliqua magna velit proident.
+                Mollit anim consequat elit dolore. Eiusmod cupidatat ipsum non enim consectetur laborum laboris nisi mollit. Nostrud in duis
+                reprehenderit magna veniam aute. Aliqua ex non aliquip minim eu fugiat. Ex est exercitation eu laboris commodo dolore non
+                reprehenderit eu amet veniam. Amet eiusmod sunt anim aliquip nulla aliqua incididunt elit id est quis. Esse adipisicing non
+                commodo fugiat irure sint ullamco sit commodo sunt ea ut non amet. Sunt culpa officia quis nisi dolor nisi. Enim nulla esse
+                ipsum dolore qui est mollit commodo nisi eu culpa. Est fugiat exercitation reprehenderit officia eu incididunt incididunt
+                velit. Fugiat consectetur aliquip est laboris sit eiusmod veniam irure ex fugiat amet. Consectetur id id non enim elit.
+                Deserunt ullamco eu adipisicing ipsum dolore exercitation fugiat deserunt. Sit aliqua elit est nisi dolore velit nisi. Ad
+                ullamco nostrud sint veniam et nulla qui elit ut. Voluptate enim laborum laborum aliquip enim est. Esse minim culpa
+                adipisicing minim Lorem cillum nisi. Sunt cupidatat nostrud Lorem mollit laboris. Laborum sint consequat ea voluptate
+                reprehenderit in irure. Eu in veniam qui nostrud et excepteur reprehenderit amet minim. Lorem occaecat qui nulla magna
+                aliqua ullamco duis ullamco esse. Do ea aliqua sunt aliquip consequat occaecat esse laboris qui ea. Id qui labore anim
+                eiusmod occaecat nisi fugiat sit irure id fugiat aliqua magna. Fugiat tempor aliqua nulla consectetur eiusmod laborum mollit
+                id ea qui id reprehenderit proident. Adipisicing sint aliquip mollit sit pariatur est duis. Commodo ad esse laborum aliqua.
+                Duis ex laborum magna incididunt officia laboris sit ut ut aliquip ipsum. In amet dolore eiusmod velit dolor laboris
+                exercitation consequat nulla mollit occaecat labore. Laborum fugiat do ex sint nisi ad qui consectetur sunt pariatur laboris
+                sunt enim. Eiusmod nisi velit nostrud quis nostrud.
+            </div>
+            <!-- <img
+                (click)="activeImage = i"
+                *ngFor="let screenshot of info.screenshots; index as i"
+                src="{{ getImage(screenshot.image, 'small') }}"
+                class="h-full rounded-md cursor-pointer"
+            />
+            <div
+                [ngClass]="activeImage !== null ? 'opacity-100' : 'opacity-0 duration-1000 pointer-events-none'"
+                class="fixed inset-0 bg-black grid place-content-center"
+            >
+                <div *ngIf="activeImage !== null" class="inset-0 fixed flex items-center justify-between px-[3vw]">
+                    <span (click)="activeImage = null" class="material-icons fixed right-4 top-4 cursor-pointer">close</span>
+                    <span
+                        [style.fontSize]="'3rem'"
+                        (click)="activeImage = activeImage === 0 ? info.screenshots.length - 1 : activeImage - 1"
+                        class="material-icons cursor-pointer hover:brightness-150 duration-300"
+                        >keyboard_arrow_left</span
+                    >
+                    {{ activeImage }}
+                    <span
+                        [style.fontSize]="'3rem'"
+                        (click)="activeImage = activeImage === 0 ? info.screenshots.length - 1 : activeImage - 1"
+                        class="material-icons cursor-pointer hover:brightness-150 duration-300"
+                        >keyboard_arrow_right</span
+                    >
+                </div>
+                <img
+                    [attr.src]="activeImage !== null ? info.screenshots[activeImage].image : ''"
+                    [ngClass]="activeImage !== null ? 'scale-100' : 'scale-75'"
+                    class="transform duration-500 object-contain max-h-screen"
+                />
+            </div> -->
+        </div>
+    </div>
 </div>

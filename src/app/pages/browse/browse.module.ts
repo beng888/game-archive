@@ -4,7 +4,7 @@ import { BrowseComponent } from './browse.component';
 import { SharedModule } from '@shared/shared.module';
 
 @NgModule({
-  declarations: [BrowseComponent],
-  imports: [SharedModule, BrowseRoutingModule],
+    declarations: [BrowseComponent],
+    imports: [SharedModule, BrowseRoutingModule],
 })
 export class BrowseModule {}

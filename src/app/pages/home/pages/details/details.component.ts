@@ -4,13 +4,17 @@ import { Appstate } from '@store/index';
 import { selectGameDetails } from '@store/selectors/rawg.selectors';
 
 @Component({
-  selector: 'app-details',
-  templateUrl: './details.component.html',
+    selector: 'app-details',
+    templateUrl: './details.component.html',
 })
 export class DetailsComponent implements OnInit {
-  details$ = this.store.pipe(select(selectGameDetails));
+    details$ = this.store.pipe(select(selectGameDetails));
+    Array = Array;
+    ngOnInit(): void {
+        this.store
+            .pipe(select(selectGameDetails))
+            .subscribe((s) => console.log('%c⧭', 'color: white', s));
+    }
 
-  ngOnInit(): void {}
-
-  constructor(private store: Store<Appstate>) {}
+    constructor(private store: Store<Appstate>) {}
 }

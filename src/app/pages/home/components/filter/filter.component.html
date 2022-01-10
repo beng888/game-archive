@@ -1,70 +1,76 @@
-<div class="flex justify-between px-10 py-4">
-  <div
-    tabindex="0"
-    (click)="listSelect = !listSelect"
-    (blur)="listSelect = false"
-    [ngClass]="!listSelect ? 'border-primary-500' : 'border-transparent'"
-    class="group border bg-dark-500 px-2 py-1 max-w-max relative min-w-[150px] rounded-md z-40"
-  >
-    <p class="cursor-pointer flex justify-between items-centerr">
-      Lists{{ selectedList && ": " + selectedList }} <span class="material-icons">keyboard_arrow_down</span>
-    </p>
+<div class="max-w-6xl mx-auto my-4">
+    <p class="text-4xl font-bold text-white mb-2">{{ title$ | async }}</p>
 
-    <div
-      [ngClass]="{ 'max-h-96 overflow-visible border-primary-500 border': listSelect }"
-      class="absolute top-0 left-0 w-full bg-dark-500 rounded-md max-h-0 overflow-hidden"
-    >
-      <p
-        (click)="selectListFilter({ name: '', url: 'lists/main', q: null })"
-        class="px-2 py-1 font-bold hover:bg-gray-500 duration-300 cursor-pointer rounded-t-md border-b"
-      >
-        Clear
-      </p>
-      <p class="px-2 py-1 text-center underline">Top</p>
-      <p *ngFor="let link of top" (click)="selectListFilter(link)" class="px-2 py-1 hover:bg-gray-500 duration-300 cursor-pointer">
-        {{ link.name }}
-      </p>
-      <p class="px-2 py-1 text-center underline">New releases</p>
-      <p
-        *ngFor="let link2 of new_releases; last as L"
-        (click)="selectListFilter(link2)"
-        [ngClass]="{ 'font-bold': L }"
-        class="px-2 py-1 hover:bg-gray-500 duration-300 cursor-pointer"
-      >
-        {{ link2.name }}
-      </p>
+    <div readMore [innerText]="description$ | async"></div>
+
+    <div class="flex justify-between p-4 z-40 sm:bg-gray-600 rounded-3xl text-white mt-4 flex-wrap gap-4">
+        <div
+            tabindex="0"
+            (click)="listSelect = !listSelect"
+            (blur)="listSelect = false"
+            [ngClass]="!listSelect ? 'border-gray-400 hover:border-primary-600 duration-200 border-2' : 'border-transparent'"
+            class="group flex items-center border bg-gray-900 px-2 py-1 max-w-max relative min-w-[150px] rounded-2xl z-40"
+        >
+            <p class="cursor-pointer flex justify-between items-center w-full">
+                <span> Lists{{ selectedList && ": " + selectedList }}</span>
+                <span class="material-icons">keyboard_arrow_down</span>
+            </p>
+
+            <div
+                [ngClass]="{ 'max-h-[100vh] overflow-visible border-primary-600 border-2': listSelect }"
+                class="absolute top-0 left-0 w-full bg-dark-500 rounded-2xl max-h-0 overflow-hidden"
+            >
+                <p
+                    (click)="selectListFilter({ name: '', url: 'lists/main', q: null })"
+                    class="px-2 py-1 font-bold hover:bg-gray-500 duration-300 cursor-pointer rounded-t-2xl border-b"
+                >
+                    Clear
+                </p>
+                <p class="px-2 py-1 text-center underline">Top</p>
+                <p
+                    *ngFor="let link of top"
+                    (click)="selectListFilter(link)"
+                    class="px-2 py-1 hover:bg-gray-500 duration-300 cursor-pointer"
+                >
+                    {{ link.name }}
+                </p>
+                <p class="px-2 py-1 text-center underline">New releases</p>
+                <p
+                    *ngFor="let link2 of new_releases; last as L"
+                    (click)="selectListFilter(link2)"
+                    [ngClass]="{ 'font-bold rounded-b-2xl': L }"
+                    class="px-2 py-1 hover:bg-gray-500 duration-300 cursor-pointer"
+                >
+                    {{ link2.name }}
+                </p>
+            </div>
+        </div>
+
+        <span
+            (click)="filtering = !filtering"
+            [ngClass]="{ 'border-primary-700': filtering }"
+            class="material-icons sm:hidden p-2 rounded-full border-2 border-gray-400 hover:border-primary-700/30 cursor-pointer duration-300"
+            >filter_alt</span
+        >
+
+        <div [ngClass]="filtering ? 'max-h-screen' : 'max-h-0'" class="flex justify-center flex-wrap gap-2 overflow-hidden duration-300">
+            <ng-container *ngFor="let filter of Filters">
+                <ng-container *ngIf="filter[1] | async as options">
+                    <ng-container *ngIf="!(filter[3][0] === 'genres' && hasParams)">
+                        <app-select
+                            *ngIf="options.length > 1"
+                            (selectFilter)="selectFilter($event)"
+                            [placeHolder]="filter[0]"
+                            [options]="options"
+                            [label_1]="filter[2]"
+                            [select_1]="filter[3]"
+                            [options2]="filter[4]"
+                            [label_2]="filter[5]"
+                            [select_2]="filter[6]"
+                        ></app-select>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+        </div>
     </div>
-  </div>
-
-  <ng-container *ngFor="let filter of Filters">
-    <ng-container *ngIf="filter[1] | async as options">
-      <ng-container *ngIf="!(filter[3][0] === 'genres' && hasParams)">
-        <app-select
-          *ngIf="options.length > 1"
-          (selectFilter)="selectFilter($event)"
-          [placeHolder]="filter[0]"
-          [options]="options"
-          [label_1]="filter[2]"
-          [select_1]="filter[3]"
-          [options2]="filter[4]"
-          [label_2]="filter[5]"
-          [select_2]="filter[6]"
-        ></app-select>
-      </ng-container>
-    </ng-container>
-  </ng-container>
-
-  <!-- <select
-      *ngFor="let filter of filters"
-      class="bg-gray-500 w-48 px-2 py-1 my-1 outline-none capitalize"
-      [(ngModel)]="filter[0][0]"
-      (ngModelChange)="filterGames(filter[0][0], filter[2])"
-      [compareWith]="byID"
-    >
-      <option [ngValue]="filter[0][1]">{{ filter[0][1]?.name }}</option>
-  
-      <option *ngFor="let option of filter[1].length > 0 ? filter[1] : (filter[1] | async)" [ngValue]="option" class="cursor-pointer text-sm">
-        {{ option.name }}
-      </option>
-    </select> -->
 </div>

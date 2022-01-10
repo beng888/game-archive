@@ -1,63 +1,53 @@
 <div
-  tabindex="0"
-  (click)="selecting = !selecting"
-  (blur)="selecting = false"
-  [ngClass]="!selecting ? 'border-primary-500' : 'border-transparent'"
-  class="bg-dark-500 w-[fit-content] border cursor-pointer rounded-md z-40 relative whitespace-nowrap text-sm"
+    tabindex="0"
+    (click)="selecting = !selecting"
+    (blur)="selecting = false"
+    [ngClass]="!selecting ? 'border-2 border-gray-400 hover:border-primary-600 duration-200 z-10' : 'border-transparent z-20'"
+    class="bg-gray-700 w-[fit-content] border cursor-pointer rounded-2xl relative shadow-md whitespace-nowrap text-sm text-white"
 >
-  <div class="peer flex justify-between items-center px-2 py-1 min-w-[150px]">
-    {{ placeHolder
-    }}<span *ngIf="selected"
-      >: <b class="capitalize">{{ selected }}</b></span
-    >
-    <span class="material-icons">keyboard_arrow_down</span>
-  </div>
-  <div [ngClass]="{ 'max-h-full overflow-visible': selecting }" class="max-h-0 w-full absolute top-0 overflow-hidden">
-    <div class="border-primary-500 border rounded-md bg-dark-500">
-      <p class="rounded-t-md border-b font-semibold px-2 py-1 hover:bg-gray-500 duration-300" (click)="onSelect(select_1[0], '', '')">
-        Clear
-      </p>
-      <ng-container *ngFor="let option of options">
-        <div
-          [ngClass]="{ 'bg-gray-400': selected === label }"
-          *ngIf="getLabel(option, label_1) as label"
-          class="relative group px-2 py-1 hover:bg-gray-500 duration-300 hover:z-10"
+    <div class="peer flex justify-between items-center px-2 py-1 min-w-[150px]">
+        {{ placeHolder
+        }}<span *ngIf="selected"
+            >: <b class="capitalize">{{ selected }}</b></span
         >
-          <p (click)="onSelect(select_1[0], option[select_1[1]], option[select_1[2]])" class="flex justify-between items-center">
-            <span class="overflow-ellipsis overflow-hidden capitalize max-w-full whitespace-nowrap">{{ label }}</span>
-            <span *ngIf="options2 && option[options2].length > 1" class="material-icons">keyboard_arrow_right</span>
-          </p>
-          <div
-            *ngIf="options2 && label_2 && select_2 && option[options2].length > 1"
-            class="
-              absolute
-              right-3
-              min-w-[100px]
-              overflow-hidden
-              bg-dark-500
-              hidden
-              group-hover:block
-              border-primary-500 border
-              rounded-md
-              transform
-              translate-x-full
-              top-0
-            "
-          >
-            <ng-container *ngFor="let option2 of option[options2]">
-              <div
-                *ngIf="getLabel(option2, label_2) as label"
-                [ngClass]="{ 'bg-gray-400': selected === label }"
-                class="px-2 py-1 hover:bg-gray-500 duration-300"
-              >
-                <p (click)="onSelect(select_2[0], option2[select_2[1]], option2[select_2[2]])">
-                  {{ label }}
-                </p>
-              </div>
-            </ng-container>
-          </div>
-        </div>
-      </ng-container>
+        <span class="material-icons">keyboard_arrow_down</span>
     </div>
-  </div>
+    <div [ngClass]="{ 'max-h-full overflow-visible': selecting }" class="max-h-0 w-full absolute top-0 overflow-hidden">
+        <div class="border-primary-600 border-2 rounded-2xl bg-gray-700 shadow-lg">
+            <p
+                class="rounded-t-2xl border-b font-semibold px-2 py-1 hover:bg-gray-500 duration-300"
+                (click)="onSelect(select_1[0], '', '')"
+            >
+                Clear
+            </p>
+            <ng-container *ngFor="let option of options; last as L">
+                <div
+                    [ngClass]="{ 'bg-gray-400': selected === label, 'rounded-b-2xl': L }"
+                    *ngIf="getLabel(option, label_1) as label"
+                    class="relative group px-2 py-1 hover:bg-gray-500 duration-300 hover:z-10"
+                >
+                    <p (click)="onSelect(select_1[0], option[select_1[1]], option[select_1[2]])" class="flex justify-between items-center">
+                        <span class="overflow-ellipsis overflow-hidden capitalize max-w-full whitespace-nowrap">{{ label }}</span>
+                        <span *ngIf="options2 && option[options2].length > 1" class="material-icons">keyboard_arrow_right</span>
+                    </p>
+                    <div
+                        *ngIf="options2 && label_2 && select_2 && option[options2].length > 1"
+                        class="absolute right-3 min-w-[100px] overflow-hidden bg-gray-700 hidden group-hover:block border-primary-600 border-2 rounded-2xl transform translate-x-full top-0 shadow-lg"
+                    >
+                        <ng-container *ngFor="let option2 of option[options2]">
+                            <div
+                                *ngIf="getLabel(option2, label_2) as label"
+                                [ngClass]="{ 'bg-gray-400': selected === label }"
+                                class="px-2 py-1 hover:bg-gray-500 duration-300"
+                            >
+                                <p (click)="onSelect(select_2[0], option2[select_2[1]], option2[select_2[2]])">
+                                    {{ label }}
+                                </p>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
 </div>

@@ -8,6 +8,7 @@ import { AddBuyButtonsComponent } from './components/add-buy-buttons/add-buy-but
 import { RatingsComponent } from './components/ratings/ratings.component';
 import { GameInfoComponent } from './components/game-info/game-info.component';
 import { SharedModule } from '@shared/shared.module';
+import { GamePostsComponent } from './components/game-posts/game-posts.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { SharedModule } from '@shared/shared.module';
     AddBuyButtonsComponent,
     RatingsComponent,
     GameInfoComponent,
+    GamePostsComponent,
   ],
   imports: [CommonModule, DetailsRoutingModule, SharedModule],
 })
