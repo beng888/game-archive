@@ -113,7 +113,6 @@ export class RawgEffects {
                 fromRawgActions.loadNextGamesPage
             ),
             mergeMap((q: any) => {
-                console.log(q);
                 interface Next {
                     next_posts_page: Function;
                     next_games_page: Function;

@@ -29,7 +29,14 @@
         <ng-container *ngFor="let game of games; last as L">
             <app-game-card [view]="view" *ngIf="!L; else Last" [game]="game"> </app-game-card>
             <ng-template #Last>
-                <app-game-card *ngIf="next$ | async as next" observeVisibility> </app-game-card>
+                <app-game-card
+                    [debounceTime]="300"
+                    (visible)="onVisible(next)"
+                    [game]="game"
+                    *ngIf="next$ | async as next"
+                    observeVisibility
+                >
+                </app-game-card>
             </ng-template>
         </ng-container>
     </div>

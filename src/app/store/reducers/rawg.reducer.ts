@@ -47,6 +47,7 @@ export interface State {
     reddit_posts: res.RedditPost[];
     next_games_page: string | null;
     next_posts_page: string | null;
+    loadingPage: string[];
 }
 
 export const initialState: State = {
@@ -91,6 +92,7 @@ export const initialState: State = {
     reddit_posts: [],
     next_games_page: null,
     next_posts_page: null,
+    loadingPage: [],
 };
 
 export const reducer = createReducer(
@@ -149,14 +151,38 @@ export const reducer = createReducer(
             };
         }
     ),
-    on(
-        fromRawgActions.loadNextGamesPageSuccess,
-        (state, { games, next_games_page }) => {
-            return {
-                ...state,
-                games: [...state.games, ...games],
-                next_games_page,
-            };
-        }
-    )
+    on(fromRawgActions.loadNextGamesPage, (state, { next }) => {
+        return {
+            ...state,
+            loadingPage: [...state.loadingPage, next],
+        };
+    }),
+    on(fromRawgActions.loadNextGamesPageFailure, (state, action) => {
+        console.log('%c⧭', 'color: #f279ca', action);
+
+        return state;
+    }),
+    on(fromRawgActions.loadNextGamesPageSuccess, (state, action) => {
+        const { games, next_games_page } = action;
+        console.log(action);
+
+        return {
+            ...state,
+            games: [...state.games, ...games],
+            loadingPage: state.loadingPage.filter(
+                (v) => v !== 'next_games_page'
+            ),
+            next_games_page,
+        };
+    })
+    // on(fromRawgActions.loading, (state, action) => {
+    //     console.log('%c⧭', 'color: #d90000', action);
+
+    //     return { ...state, loading: ['a', 'b', 'c'] };
+    // }),
+    // on(fromRawgActions.filterLoading, (state, action) => {
+    //     console.log('%c⧭', 'color: #ffa640', action);
+
+    //     return state;
+    // })
 );

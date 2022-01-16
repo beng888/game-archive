@@ -139,28 +139,8 @@
     <div class="my-6">
         <p class="text-2xl font-semibold mb-6">{{ info.name_original }} Screenshots</p>
 
-        <div (click)="onClick($event)" class="flex h-32 gap-4 overflow-x-auto scroll-bar">
-            <div class="w-[2000px] whitespace-nowrap">
-                Sit ipsum eiusmod nostrud duis. Sit consectetur tempor ex irure laboris. Magna ullamco pariatur nostrud ad mollit. Et
-                adipisicing non sint quis Lorem non elit nisi ad. Elit esse duis ad tempor labore laborum eu aliqua magna velit proident.
-                Mollit anim consequat elit dolore. Eiusmod cupidatat ipsum non enim consectetur laborum laboris nisi mollit. Nostrud in duis
-                reprehenderit magna veniam aute. Aliqua ex non aliquip minim eu fugiat. Ex est exercitation eu laboris commodo dolore non
-                reprehenderit eu amet veniam. Amet eiusmod sunt anim aliquip nulla aliqua incididunt elit id est quis. Esse adipisicing non
-                commodo fugiat irure sint ullamco sit commodo sunt ea ut non amet. Sunt culpa officia quis nisi dolor nisi. Enim nulla esse
-                ipsum dolore qui est mollit commodo nisi eu culpa. Est fugiat exercitation reprehenderit officia eu incididunt incididunt
-                velit. Fugiat consectetur aliquip est laboris sit eiusmod veniam irure ex fugiat amet. Consectetur id id non enim elit.
-                Deserunt ullamco eu adipisicing ipsum dolore exercitation fugiat deserunt. Sit aliqua elit est nisi dolore velit nisi. Ad
-                ullamco nostrud sint veniam et nulla qui elit ut. Voluptate enim laborum laborum aliquip enim est. Esse minim culpa
-                adipisicing minim Lorem cillum nisi. Sunt cupidatat nostrud Lorem mollit laboris. Laborum sint consequat ea voluptate
-                reprehenderit in irure. Eu in veniam qui nostrud et excepteur reprehenderit amet minim. Lorem occaecat qui nulla magna
-                aliqua ullamco duis ullamco esse. Do ea aliqua sunt aliquip consequat occaecat esse laboris qui ea. Id qui labore anim
-                eiusmod occaecat nisi fugiat sit irure id fugiat aliqua magna. Fugiat tempor aliqua nulla consectetur eiusmod laborum mollit
-                id ea qui id reprehenderit proident. Adipisicing sint aliquip mollit sit pariatur est duis. Commodo ad esse laborum aliqua.
-                Duis ex laborum magna incididunt officia laboris sit ut ut aliquip ipsum. In amet dolore eiusmod velit dolor laboris
-                exercitation consequat nulla mollit occaecat labore. Laborum fugiat do ex sint nisi ad qui consectetur sunt pariatur laboris
-                sunt enim. Eiusmod nisi velit nostrud quis nostrud.
-            </div>
-            <!-- <img
+        <div class="flex h-32 gap-4 overflow-x-auto scroll-bar">
+            <img
                 (click)="activeImage = i"
                 *ngFor="let screenshot of info.screenshots; index as i"
                 src="{{ getImage(screenshot.image, 'small') }}"
@@ -191,7 +171,7 @@
                     [ngClass]="activeImage !== null ? 'scale-100' : 'scale-75'"
                     class="transform duration-500 object-contain max-h-screen"
                 />
-            </div> -->
+            </div>
         </div>
     </div>
 </div>

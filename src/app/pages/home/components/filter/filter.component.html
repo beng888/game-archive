@@ -53,7 +53,7 @@
             >filter_alt</span
         >
 
-        <div [ngClass]="filtering ? 'max-h-screen' : 'max-h-0'" class="flex justify-center flex-wrap gap-2 overflow-hidden duration-300">
+        <div [ngClass]="filtering ? 'max-h-screen' : 'max-h-0 overflow-hidden'" class="flex justify-center flex-wrap gap-2 duration-300">
             <ng-container *ngFor="let filter of Filters">
                 <ng-container *ngIf="filter[1] | async as options">
                     <ng-container *ngIf="!(filter[3][0] === 'genres' && hasParams)">
