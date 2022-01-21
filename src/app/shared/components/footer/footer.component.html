@@ -1,0 +1,14 @@
+<div class="py-12 text-center text-white grid gap-4 justify-center">
+    <div class="flex gap-4">
+        <a *ngFor="let social of socials" href="{{ social.link }}">
+            <img class="h-20 w-20" src="assets/images/{{ social.img }}.svg" alt="{{ social }}" />
+        </a>
+    </div>
+
+    <div class="flex gap-4 justify-center tracking-wider font-bold">
+        <a class="hover:text-primary-500 duration-300" href="https://angular.io/" target="_blank">ANGULAR</a> 🕹️
+        <a class="hover:text-primary-500 duration-300" href="https://rawg.io/" target="_blank">RAWG</a>
+    </div>
+
+    <p>&copy; 2022 Lawrence Ardosa</p>
+</div>

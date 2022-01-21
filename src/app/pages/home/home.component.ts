@@ -7,8 +7,9 @@ import { ActivatedRoute } from '@angular/router';
 import {
     selectGames,
     selectNextGamesPage,
+    selectLoading,
 } from '@store/selectors/rawg.selectors';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import * as fromRawgActions from '@store/actions/rawg.actions';
 
 @Component({
@@ -16,13 +17,21 @@ import * as fromRawgActions from '@store/actions/rawg.actions';
     templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {
-    games$!: Observable<Array<Game>>;
-    next$!: Observable<string | null>;
-    isCalender: boolean = false;
+    games$ = this.store.pipe(select(selectGames));
+    next$ = this.store.pipe(select(selectNextGamesPage));
 
+    public nextGamesPageLoading$ = this.store.pipe(
+        select(selectLoading('loadNextGamesPage'))
+    );
+    public isCalender: boolean = false;
+    public gamesLoading$ = this.store.pipe(select(selectLoading('LoadGames')));
     public view: string = 'grid_view';
     public viewSelect: boolean = false;
     public views = ['crop_square', 'grid_view', 'grid_on', 'view_list'];
+    public changeView = (v: string) => {
+        localStorage.setItem('GameArchiveView', v);
+        this.view = v;
+    };
 
     onVisible = (str: string | null) => {
         if (!str) return;
@@ -31,19 +40,16 @@ export class HomeComponent implements OnInit {
             fromRawgActions.loadNextGamesPage({
                 page,
                 pageType: 'games',
-                next: 'next_games_page',
             })
         );
     };
 
     ngOnInit(): void {
-        this.games$ = this.store.pipe(select(selectGames));
-        this.next$ = this.store.pipe(select(selectNextGamesPage));
-        // this.route.params.subscribe((p) => (this.params = p));
         this.route.params.subscribe(
             (p) => (this.isCalender = Object.keys(p)?.includes('year'))
         );
 
+        this.view = localStorage.getItem('GameArchiveView') || 'grid_view';
         // console.log((this.params = this.route.snapshot.params));
         // this.route.params.subscribe((p) => {
         //   if (Object.keys(p)?.length > 0) {

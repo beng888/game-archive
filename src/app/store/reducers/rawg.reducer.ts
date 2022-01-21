@@ -1,6 +1,7 @@
 import * as res from '@core/interfaces/rawg';
 import { createReducer, on } from '@ngrx/store';
 import { ordering } from '@pages/home/components/filter/static';
+import { getLoadType } from '@shared/helpers/functions';
 import * as fromRawgActions from '../actions/rawg.actions';
 
 export const rawgFeatureKey = 'rawg';
@@ -45,9 +46,10 @@ export interface State {
     esrb_rating: res.Esrb_rating | null;
     vendors: res.Vendor[];
     reddit_posts: res.RedditPost[];
-    next_games_page: string | null;
-    next_posts_page: string | null;
-    loadingPage: string[];
+    loadNextGamesPage: string | null;
+    loadNextPostsPage: string | null;
+    loading: string[];
+    metacritic_platforms: any[];
 }
 
 export const initialState: State = {
@@ -90,9 +92,10 @@ export const initialState: State = {
     stores: [],
     ratings: [],
     reddit_posts: [],
-    next_games_page: null,
-    next_posts_page: null,
-    loadingPage: [],
+    loadNextGamesPage: null,
+    loadNextPostsPage: null,
+    loading: [],
+    metacritic_platforms: [],
 };
 
 export const reducer = createReducer(
@@ -109,14 +112,16 @@ export const reducer = createReducer(
             genres: results,
         };
     }),
+
     on(fromRawgActions.loadGamesSuccess, (state, action) => {
         return {
             ...state,
             games: action.results || [],
             ...action,
-            next_games_page: action.next,
+            loadNextGamesPage: action.next,
             description: action.description || '',
             seo_description: action.seo_description || '',
+            seo_h1: action.seo_h1 || '',
         };
     }),
     on(fromRawgActions.loadBrowseSuccess, (state, { results }) => {
@@ -129,7 +134,7 @@ export const reducer = createReducer(
         fromRawgActions.loadGameDetailsSuccess,
         (
             state,
-            { screenshots, trailers, vendors, reddit_posts, next_posts_page }
+            { screenshots, trailers, vendors, reddit_posts, loadNextPostsPage }
         ) => {
             return {
                 ...state,
@@ -137,52 +142,51 @@ export const reducer = createReducer(
                 trailers,
                 vendors,
                 reddit_posts,
-                next_posts_page,
+                loadNextPostsPage,
             };
         }
+    ),
+    /* -------------------------------------------------------------------------- */
+    /*                                   LOADERS                                  */
+    /* -------------------------------------------------------------------------- */
+    on(
+        fromRawgActions.loadGames,
+        fromRawgActions.loadBrowse,
+        fromRawgActions.loadGameDetails,
+        fromRawgActions.loadNextPostsPage,
+        fromRawgActions.loadNextGamesPage,
+        (state, { type }) => ({
+            ...state,
+            loading: [...state.loading, getLoadType(type)],
+        })
     ),
     on(
+        fromRawgActions.loadGamesSuccess,
+        fromRawgActions.loadGamesFailure,
+        fromRawgActions.loadBrowseSuccess,
+        fromRawgActions.loadBrowseFailure,
+        fromRawgActions.loadGameDetailsSuccess,
+        fromRawgActions.loadGameDetailsFailure,
         fromRawgActions.loadNextPostsPageSuccess,
-        (state, { reddit_posts, next_posts_page }) => {
+        fromRawgActions.loadNextGamesPageSuccess,
+        fromRawgActions.loadNextGamesPageFailure,
+        fromRawgActions.loadNextPostsPageFailure,
+        (state, action) => {
+            const { pageType, type, results } = action;
+            const loadType = getLoadType(type);
+
+            if (!pageType)
+                return {
+                    ...state,
+                    loading: state.loading.filter((v) => v !== loadType),
+                };
+
             return {
                 ...state,
-                reddit_posts: [...state.reddit_posts, ...reddit_posts],
-                next_posts_page,
+                loading: state.loading.filter((v) => v !== loadType),
+                [pageType]: [...state[pageType as keyof State], ...results],
+                [loadType]: action[loadType],
             };
         }
-    ),
-    on(fromRawgActions.loadNextGamesPage, (state, { next }) => {
-        return {
-            ...state,
-            loadingPage: [...state.loadingPage, next],
-        };
-    }),
-    on(fromRawgActions.loadNextGamesPageFailure, (state, action) => {
-        console.log('%c⧭', 'color: #f279ca', action);
-
-        return state;
-    }),
-    on(fromRawgActions.loadNextGamesPageSuccess, (state, action) => {
-        const { games, next_games_page } = action;
-        console.log(action);
-
-        return {
-            ...state,
-            games: [...state.games, ...games],
-            loadingPage: state.loadingPage.filter(
-                (v) => v !== 'next_games_page'
-            ),
-            next_games_page,
-        };
-    })
-    // on(fromRawgActions.loading, (state, action) => {
-    //     console.log('%c⧭', 'color: #d90000', action);
-
-    //     return { ...state, loading: ['a', 'b', 'c'] };
-    // }),
-    // on(fromRawgActions.filterLoading, (state, action) => {
-    //     console.log('%c⧭', 'color: #ffa640', action);
-
-    //     return state;
-    // })
+    )
 );

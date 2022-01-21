@@ -6,29 +6,36 @@ import * as fromRawgActions from '../actions/rawg.actions';
 
 @Injectable()
 export class AlertEffects {
-  // showAlerts(): void {
-  //   this.alertService.info('this is an info alert');
-  //   this.alertService.danger('this is a danger alert');
-  //   this.alertService.success('this is a success alert');
-  //   this.alertService.warning('this is a warning alert');
-  // }
+    // showAlerts(): void {
+    //   this.alertService.info('this is an info alert');
+    //   this.alertService.danger('this is a danger alert');
+    //   this.alertService.success('this is a success alert');
+    //   this.alertService.warning('this is a warning alert');
+    // }
 
-  LoadingFailed$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(
-          fromRawgActions.loadParentPlatformsFailure,
-          fromRawgActions.loadGenresFailure,
-          fromRawgActions.loadGamesFailure,
-          fromRawgActions.loadBrowseFailure,
-          fromRawgActions.loadGameDetailsFailure
-        ),
-        tap((action) => {
-          this.alertService.danger(action.message || action.messages || '');
-        })
-      ),
-    { dispatch: false }
-  );
+    LoadingFailed$ = createEffect(
+        () =>
+            this.actions$.pipe(
+                ofType(
+                    fromRawgActions.loadParentPlatformsFailure,
+                    fromRawgActions.loadGenresFailure,
+                    fromRawgActions.loadGamesFailure,
+                    fromRawgActions.loadBrowseFailure,
+                    fromRawgActions.loadGameDetailsFailure,
+                    fromRawgActions.loadNextGamesPageFailure,
+                    fromRawgActions.loadNextPostsPageFailure
+                ),
+                tap((action) => {
+                    this.alertService.danger(
+                        action.message || action.messages || action.detail || ''
+                    );
+                })
+            ),
+        { dispatch: false }
+    );
 
-  constructor(private actions$: Actions, private alertService: AlertService) {}
+    constructor(
+        private actions$: Actions,
+        private alertService: AlertService
+    ) {}
 }

@@ -25,7 +25,9 @@ export const getImage = (image: string, size?: string) => {
 export const getColor = (value: number): string => {
     if (value > 75) return '#5ee432';
     if (value > 50) return '#fffa50';
-    if (value > 30) return '#f7aa38';
+    if (value > 25) return '#f7aa38';
     if (value > 0) return '#ef4655';
     return 'gray';
 };
+
+export const getLoadType = (type: string) => type.split(':')[0];

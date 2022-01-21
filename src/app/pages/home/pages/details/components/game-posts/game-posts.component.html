@@ -1,5 +1,5 @@
 <div>
-    <p class="text-2xl font-semibold my-6">User Reviews</p>
+    <p class="text-2xl font-semibold my-6">Reddit Posts</p>
 
     <div class="grid gap-6">
         <div *ngFor="let post of posts" class="grid gap-2 bg-dark-500 rounded-md p-4">
@@ -26,32 +26,10 @@
     <button
         (click)="getNextPage(next)"
         *ngIf="next"
-        class="
-            border border-primary-600
-            flex
-            justify-center
-            items-center
-            font-semibold
-            text-xl text-white
-            hover:text-primary-600 hover:bg-opacity-0
-            duration-300
-            w-full
-            my-4
-            py-1
-            bg-primary-600 bg-opacity-50
-            focus:ring-0
-        "
+        class="border border-primary-600 flex justify-center items-center font-semibold text-xl text-white hover:text-primary-600 hover:bg-opacity-0 duration-300 w-full mt-4 h-12 bg-primary-600 bg-opacity-50 focus:ring-0"
     >
-        Load more reddit posts
+        <div *ngIf="nextPostsPageLoading$ | async; else loadMore" ellipsisLoader></div>
+
+        <ng-template #loadMore> Load more reddit posts </ng-template>
     </button>
-
-    <!-- 
-    <div class="text-center">
-        <span (click)="changePage(prev)" *ngIf="prev"> << previous page</span>
-
-        <span>
-            {{ page }}
-        </span>
-        <span (click)="changePage(next)" *ngIf="next">next page >></span>
-    </div> -->
 </div>

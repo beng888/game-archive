@@ -33,7 +33,7 @@ export interface Game {
     slug: string;
     released: string;
     reviews_count: number;
-    next_games_page: string | null;
+    loadNextGamesPage: string | null;
     metacritic: number;
     esrb_rating: {
         name: string;

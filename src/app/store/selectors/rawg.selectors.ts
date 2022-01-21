@@ -1,4 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { memoize } from 'lodash-es';
 import { rawgFeatureKey, State } from '../reducers/rawg.reducer';
 
 export const selectRawgFeature = createFeatureSelector<State>(rawgFeatureKey);
@@ -7,6 +8,12 @@ export const selectTitle = createSelector(
     selectRawgFeature,
     (state: State) => state.seo_h1
 );
+
+export const selectBackground = createSelector(
+    selectRawgFeature,
+    (state: State) => state.background_image_additional
+);
+
 export const selectDescription = createSelector(
     selectRawgFeature,
     (state: State) => state.description || state.seo_description
@@ -14,15 +21,14 @@ export const selectDescription = createSelector(
 
 export const selectNextGamesPage = createSelector(
     selectRawgFeature,
-    (state: State) => state.next_games_page
+    (state: State) => state.loadNextGamesPage
 );
 
 /* ---------------------------------- CARDS --------------------------------- */
 
-export const selectGames = createSelector(
-    selectRawgFeature,
-    (state: State) => state.games
-);
+export const selectGames = createSelector(selectRawgFeature, (state: State) => {
+    return state.games;
+});
 
 export const selectGameDetails = createSelector(
     selectRawgFeature,
@@ -65,3 +71,10 @@ export const selectMonthsFilter = createSelector(
     selectRawgFeature,
     (state: State) => state.months
 );
+
+/* --------------------------------- LOADERS -------------------------------- */
+
+export const selectLoading = (props: string) =>
+    createSelector(selectRawgFeature, (state: State): boolean =>
+        state.loading.includes(props)
+    );

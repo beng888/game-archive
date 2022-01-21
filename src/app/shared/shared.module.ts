@@ -8,6 +8,8 @@ import { BrowseCardComponent } from './components/browse-card/browse-card.compon
 import { ImageViewerComponent } from './components/image-viewer/image-viewer.component';
 import { ObserveVisibilityDirective } from './directives/observeVisibility.directive';
 import { readMoreDirective } from './directives/readMore.directive';
+import { EllipsisLoaderDirective } from './directives/ellipsis-loader.directive';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
     declarations: [
@@ -17,6 +19,8 @@ import { readMoreDirective } from './directives/readMore.directive';
         ImageViewerComponent,
         ObserveVisibilityDirective,
         readMoreDirective,
+        EllipsisLoaderDirective,
+        FooterComponent,
     ],
     imports: [CommonModule, FormsModule, RouterModule],
     exports: [
@@ -30,6 +34,8 @@ import { readMoreDirective } from './directives/readMore.directive';
         ImageViewerComponent,
         ObserveVisibilityDirective,
         readMoreDirective,
+        EllipsisLoaderDirective,
+        FooterComponent,
     ],
 })
 export class SharedModule {}

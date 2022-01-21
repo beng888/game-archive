@@ -5,6 +5,9 @@ import { environment } from '@environment/environment';
 import { Browse, Game, List, Res } from '@core/interfaces/rawg';
 import { Params } from '@angular/router';
 import { map } from 'rxjs/operators';
+import { Appstate } from '@store/index';
+import { Store } from '@ngrx/store';
+import * as fromRawgActions from '@store/actions/rawg.actions';
 
 @Injectable({
     providedIn: 'root',
@@ -26,6 +29,8 @@ export class RawgService {
     }
 
     getBrowse(q: Params): Observable<Res<Browse>> {
+        this.store.dispatch(fromRawgActions.loadBrowse());
+
         return this.http.get<Res<Browse>>(
             `${environment.BASE_URL}/${q.params.slug}`,
             {
@@ -39,17 +44,8 @@ export class RawgService {
     getGames(q: Params): Observable<Res<Game>> {
         const { queryParams, params, url } = q;
         const URL = url === '/' ? 'games/lists/main' : url.split('?')[0];
-        // console.log('%c%s', 'color: #d90000', URL);
 
-        // const { next_posts_page } = this.details$;
-
-        // console.log(this.router.routerState.snapshot.root);
-
-        // if (
-        //     params.hasOwnProperty('details') &&
-        //     next_posts_page?.includes(params.details)
-        // )
-        //     return EMPTY;
+        this.store.dispatch(fromRawgActions.loadGames());
 
         const getQueries = () => {
             if (url === '/') return { ordering: '-relevance', discover: true };
@@ -76,10 +72,7 @@ export class RawgService {
 
     getGameDetails(q: Params): Observable<any> {
         const { queryParams, params, url } = q;
-
-        // const URL = this.router.routerState.snapshot.url;
-
-        // const { next_posts_page } = this.details$;
+        this.store.dispatch(fromRawgActions.loadGameDetails());
 
         const gameTrailersRequest = this.http.get(
             `${environment.BASE_URL}/games/${params.details}/movies`
@@ -94,19 +87,6 @@ export class RawgService {
             `${environment.BASE_URL}/games/${params.details}/reddit`
         );
 
-        // if (URL.includes(params.details) && next_posts_page) {
-
-        // if (next_posts_page?.includes(params.details)) {
-        //     return gameRedditsRequest.pipe(
-        //         map((res: any) => {
-        //             return {
-        //                 reddit_posts: res.results,
-        //                 next_posts_page: res.next,
-        //             };
-        //         })
-        //     );
-        // }
-
         return forkJoin({
             gameScreenshotsRequest,
             gameTrailersRequest,
@@ -119,22 +99,23 @@ export class RawgService {
                     trailers: resp['gameTrailersRequest']?.results,
                     vendors: resp['gameStoresRequest']?.results,
                     reddit_posts: resp['gameRedditsRequest']?.results,
-                    next_posts_page: resp['gameRedditsRequest']?.next,
+                    loadNextPostsPage: resp['gameRedditsRequest']?.next,
                 };
             })
         );
     }
 
-    getNextPage({ page, pageType, next }: any): Observable<any> {
+    getNextPage({ page, pageType, loadType }: any): Observable<any> {
         return this.http.get(`${environment.BASE_URL}${page}`).pipe(
             map((res: any) => {
                 return {
-                    [pageType]: res.results,
-                    [next]: res.next,
+                    [loadType]: res.next,
+                    results: res.results,
+                    pageType,
                 };
             })
         );
     }
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient, private store: Store<Appstate>) {}
 }

@@ -6,6 +6,7 @@ import { catchError, filter, map, mergeMap, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { ROUTER_NAVIGATION, RouterNavigationAction } from '@ngrx/router-store';
 import { RouterStateUrl } from 'src/app/custom-route-serializer';
+import { getLoadType } from '@shared/helpers/functions';
 
 @Injectable()
 export class RawgEffects {
@@ -53,7 +54,6 @@ export class RawgEffects {
             switchMap((q: RouterNavigationAction<RouterStateUrl>) => {
                 return this.rawgService.getGames(q.payload.routerState).pipe(
                     map((data) => {
-                        console.log('%c⧭', 'color: yellow', data);
                         return fromRawgActions.loadGamesSuccess(data);
                     }),
                     catchError(({ error }) => {
@@ -71,8 +71,6 @@ export class RawgEffects {
                 return r.payload.routerState.params.hasOwnProperty('details');
             }),
             switchMap((q: RouterNavigationAction<RouterStateUrl>) => {
-                console.log('%c%s', 'color: #00bf00', 'loadGameDetails');
-                console.log(q);
                 return this.rawgService
                     .getGameDetails(q.payload.routerState)
                     .pipe(
@@ -113,26 +111,28 @@ export class RawgEffects {
                 fromRawgActions.loadNextGamesPage
             ),
             mergeMap((q: any) => {
+                const loadType = getLoadType(q.type);
+
                 interface Next {
-                    next_posts_page: Function;
-                    next_games_page: Function;
+                    loadNextPostsPage: Function;
+                    loadNextGamesPage: Function;
                 }
 
                 const success: Next = {
-                    next_posts_page: fromRawgActions.loadNextPostsPageSuccess,
-                    next_games_page: fromRawgActions.loadNextGamesPageSuccess,
+                    loadNextPostsPage: fromRawgActions.loadNextPostsPageSuccess,
+                    loadNextGamesPage: fromRawgActions.loadNextGamesPageSuccess,
                 };
 
                 const failure: Next = {
-                    next_posts_page: fromRawgActions.loadNextPostsPageFailure,
-                    next_games_page: fromRawgActions.loadNextGamesPageFailure,
+                    loadNextPostsPage: fromRawgActions.loadNextPostsPageFailure,
+                    loadNextGamesPage: fromRawgActions.loadNextGamesPageFailure,
                 };
 
-                return this.rawgService.getNextPage({ ...q }).pipe(
-                    map((data) => success[q.next as keyof Next](data)),
-                    catchError(({ error }) =>
-                        failure[q.next as keyof Next](error)
-                    )
+                return this.rawgService.getNextPage({ ...q, loadType }).pipe(
+                    map((data) => success[loadType as keyof Next](data)),
+                    catchError(({ error }) => {
+                        return of(failure[loadType as keyof Next](error));
+                    })
                 );
             })
         );

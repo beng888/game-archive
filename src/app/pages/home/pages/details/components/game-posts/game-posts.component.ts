@@ -4,11 +4,12 @@ import {
     ChangeDetectionStrategy,
     Input,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { RedditPost } from '@core/interfaces/rawg';
 import { Appstate } from '@store/index';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import * as fromRawgActions from '@store/actions/rawg.actions';
+import { selectLoading } from '@store/selectors/rawg.selectors';
 
 @Component({
     selector: 'app-game-posts',
@@ -20,6 +21,9 @@ export class GamePostsComponent implements OnInit {
     @Input() next!: string | null;
 
     public page!: number | null;
+    public nextPostsPageLoading$ = this.store.pipe(
+        select(selectLoading('loadNextPostsPage'))
+    );
 
     getNextPage = (str: string | null) => {
         if (str === null) return;
@@ -29,7 +33,6 @@ export class GamePostsComponent implements OnInit {
             fromRawgActions.loadNextPostsPage({
                 page,
                 pageType: 'reddit_posts',
-                next: 'next_posts_page',
             })
         );
     };
@@ -39,7 +42,6 @@ export class GamePostsComponent implements OnInit {
     }
 
     constructor(
-        private router: Router,
         private route: ActivatedRoute,
         private store: Store<Appstate>
     ) {}

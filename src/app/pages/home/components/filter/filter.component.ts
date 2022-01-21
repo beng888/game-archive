@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { List } from '@core/interfaces/rawg';
 import { select, Store } from '@ngrx/store';
@@ -27,6 +27,8 @@ type Filter = [
     templateUrl: './filter.component.html',
 })
 export class FilterComponent implements OnInit {
+    @Input() loading!: boolean | null;
+
     public top: top_NewRelease[] = top;
     public new_releases: top_NewRelease[] = new_releases;
     public selectedList: string | null = null;
@@ -82,7 +84,6 @@ export class FilterComponent implements OnInit {
         this.description$ = this.store.pipe(select(selectDescription));
         this.title$ = this.store.pipe(select(selectTitle));
 
-        this.store.dispatch(fromRawgActions.loadParentPlatforms());
         this.store.dispatch(fromRawgActions.loadGenres());
         this.route.params.subscribe((s) => {
             if (s.slug) return (this.hasParams = true);

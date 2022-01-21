@@ -6,10 +6,12 @@
     class="bg-gray-700 w-[fit-content] border cursor-pointer rounded-2xl relative shadow-md whitespace-nowrap text-sm text-white"
 >
     <div class="peer flex justify-between items-center px-2 py-1 min-w-[150px]">
-        {{ placeHolder
-        }}<span *ngIf="selected"
-            >: <b class="capitalize">{{ selected }}</b></span
-        >
+        <div>
+            {{ placeHolder }}
+            <span *ngIf="selected"
+                >: <b class="capitalize">{{ selected }}</b></span
+            >
+        </div>
         <span class="material-icons">keyboard_arrow_down</span>
     </div>
     <div [ngClass]="{ 'max-h-full overflow-visible': selecting }" class="max-h-0 w-full absolute top-0 overflow-hidden">

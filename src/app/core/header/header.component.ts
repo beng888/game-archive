@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+    Component,
+    ElementRef,
+    HostListener,
+    OnInit,
+    ViewChild,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Appstate } from 'src/app/store';
 import { headerLinks } from './static';
@@ -19,12 +25,32 @@ export class HeaderComponent implements OnInit {
     public headerLinks: string[] = headerLinks;
     public searching: boolean = false;
     public menuOpen: boolean = false;
+    public windowScrolled!: boolean;
     public route = this.store.select(selectCurrentRoute);
     public searchResults: Array<Game> | null = null;
     private searchInputValue$ = new Subject<any>();
     getImage = getImage;
 
     @ViewChild('searchInput') searchInput!: ElementRef;
+    @ViewChild('head') head!: ElementRef;
+
+    @HostListener('window:scroll', [])
+    onWindowScroll() {
+        const top =
+            window.pageYOffset ||
+            document.documentElement.scrollTop ||
+            document.body.scrollTop;
+
+        if (top > 200) this.windowScrolled = true;
+
+        if (this.windowScrolled && top < 100) this.windowScrolled = false;
+    }
+
+    scrollToTop = () => {
+        this.head.nativeElement.scrollIntoView({
+            behavior: 'smooth',
+        });
+    };
 
     doSearch = () => {
         this.searching = !this.searching;

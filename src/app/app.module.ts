@@ -17,27 +17,31 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { CustomSerializer } from './custom-route-serializer';
 
 @NgModule({
-  declarations: [AppComponent],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    CoreModule,
-    SharedModule,
-    StoreDevtoolsModule.instrument({
-      maxAge: 25,
-      logOnly: environment.production,
-    }),
-    StoreModule.forRoot(reducers, { metaReducers }),
-    !environment.production ? StoreDevtoolsModule.instrument() : [],
-    EffectsModule.forRoot([RawgEffects, AlertEffects]),
-    AlertModule.forRoot({ maxMessages: 5, timeout: 5000, positionX: 'right' }),
-    StoreRouterConnectingModule.forRoot({
-      serializer: CustomSerializer,
-    }),
-  ],
-  providers: [],
-  bootstrap: [AppComponent],
-  exports: [],
+    declarations: [AppComponent],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        CoreModule,
+        SharedModule,
+        StoreDevtoolsModule.instrument({
+            maxAge: 25,
+            logOnly: environment.production,
+        }),
+        StoreModule.forRoot(reducers, { metaReducers }),
+        !environment.production ? StoreDevtoolsModule.instrument() : [],
+        EffectsModule.forRoot([RawgEffects, AlertEffects]),
+        AlertModule.forRoot({
+            maxMessages: 5,
+            timeout: 5000,
+            positionX: 'right',
+        }),
+        StoreRouterConnectingModule.forRoot({
+            serializer: CustomSerializer,
+        }),
+    ],
+    providers: [],
+    bootstrap: [AppComponent],
+    exports: [],
 })
 export class AppModule {}

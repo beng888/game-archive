@@ -15,6 +15,8 @@ import { getImage } from '@shared/helpers/functions';
 })
 export class BrowseCardComponent implements OnInit {
     @Input() item!: Browse;
+    @Input() loading!: boolean | null;
+
     getImage = getImage;
     params: string = '';
 

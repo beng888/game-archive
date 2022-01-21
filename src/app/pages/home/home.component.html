@@ -1,47 +1,49 @@
-<app-filter></app-filter>
+<div class="px-4">
+    <app-filter [loading]="gamesLoading$ | async"></app-filter>
 
-<app-calendar *ngIf="isCalender"></app-calendar>
+    <app-calendar *ngIf="isCalender"></app-calendar>
 
-<div *ngIf="games$ | async as games">
-    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between my-4 text-white z-20">
-        <p class="text-white text-xl font-semibold">Showing {{ games.length }} Games</p>
+    <div *ngIf="games$ | async as games">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between my-4 text-white z-20">
+            <p class="text-white text-xl font-semibold">Showing {{ games.length }} Games</p>
 
-        <div class="flex gap-2 items-center">
-            Display Options:
-            <span
-                (click)="view = v"
-                *ngFor="let v of views"
-                [ngClass]="{ 'brightness-75': v !== view }"
-                class="material-icons bg-dark-400 text-4xl rounded-lg cursor-pointer hover:brightness-100 duration-300 px-1"
-                >{{ v }}</span
-            >
+            <div class="flex gap-2 items-center">
+                Display Options:
+                <span
+                    (click)="changeView(v)"
+                    *ngFor="let v of views"
+                    [ngClass]="{ 'brightness-75': v !== view }"
+                    class="material-icons bg-dark-400 text-4xl rounded-lg cursor-pointer hover:brightness-100 duration-300 px-1"
+                    >{{ v }}</span
+                >
+            </div>
+        </div>
+        <div
+            class="grid max-w-6xl mx-auto relative place-content-center auto-cols-fr"
+            [ngClass]="{
+                'justify-center gap-12': view === 'crop_square',
+                'sm:grid-cols-2 gap-6 lg:grid-cols-3': view === 'grid_view',
+                'gap-2': view === 'view_list',
+                'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 max-w-full': view === 'grid_on'
+            }"
+        >
+            <ng-container *ngFor="let game of games; last as L">
+                <app-game-card [loading]="gamesLoading$ | async" [view]="view" *ngIf="!L; else Last" [game]="game"> </app-game-card>
+                <ng-template #Last>
+                    <app-game-card
+                        [loading]="gamesLoading$ | async"
+                        [debounceTime]="300"
+                        (visible)="onVisible(next)"
+                        [game]="game"
+                        *ngIf="next$ | async as next"
+                        observeVisibility
+                    >
+                    </app-game-card>
+                </ng-template>
+            </ng-container>
+        </div>
+        <div *ngIf="nextGamesPageLoading$ | async" class="text-white text-center bg-gray-600 rounded-md w-60 mx-auto mt-8">
+            <div ellipsisLoader></div>
         </div>
     </div>
-    <div
-        class="grid max-w-6xl mx-auto"
-        [ngClass]="{
-            'justify-center gap-12': view === 'crop_square',
-            'sm:grid-cols-2 gap-6 lg:grid-cols-3': view === 'grid_view',
-            'gap-2': view === 'view_list',
-            'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 max-w-full': view === 'grid_on'
-        }"
-    >
-        <ng-container *ngFor="let game of games; last as L">
-            <app-game-card [view]="view" *ngIf="!L; else Last" [game]="game"> </app-game-card>
-            <ng-template #Last>
-                <app-game-card
-                    [debounceTime]="300"
-                    (visible)="onVisible(next)"
-                    [game]="game"
-                    *ngIf="next$ | async as next"
-                    observeVisibility
-                >
-                </app-game-card>
-            </ng-template>
-        </ng-container>
-    </div>
 </div>
-
-<!-- [debounceTime]="300"
-(visible)="onVisible(next)"
-[game]="game" -->

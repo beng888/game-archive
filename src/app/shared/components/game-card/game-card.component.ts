@@ -13,6 +13,8 @@ export class GameCardComponent {
     @Input() view!: string | null;
     public screenshot = 0;
 
+    @Input() loading!: boolean | null;
+
     getImage = getImage;
     getColor = getColor;
 

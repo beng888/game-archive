@@ -37,7 +37,7 @@
 
     <p class="text-2xl font-semibold">Additional Information</p>
 
-    <div class="grid grid-cols-2 gap-2">
+    <div class="grid sm:grid-cols-2 gap-2">
         <div>
             <p class="font-semibold mb-1">Platforms</p>
             <p>
@@ -126,17 +126,17 @@
                 <a href="{{ info.metacritic_url }}" target="blank" class="link_">{{ info.metacritic_url }}</a>
             </p>
         </div>
-        <div class="col-span-2">
+        <div class="sm:col-span-2">
             <p class="font-semibold mb-1">Tags</p>
-            <p>
+            <div class="flex flex-wrap">
                 <a [routerLink]="['/', 'games']" [queryParams]="{ tags: tag.slug }" class="link_" *ngFor="let tag of info.tags; last as L"
                     >{{ tag.name }}{{ !L ? "," : "" }}</a
                 >
-            </p>
+            </div>
         </div>
     </div>
 
-    <div class="my-6">
+    <div class="mt-6">
         <p class="text-2xl font-semibold mb-6">{{ info.name_original }} Screenshots</p>
 
         <div class="flex h-32 gap-4 overflow-x-auto scroll-bar">
@@ -150,7 +150,10 @@
                 [ngClass]="activeImage !== null ? 'opacity-100' : 'opacity-0 duration-1000 pointer-events-none'"
                 class="fixed inset-0 bg-black grid place-content-center"
             >
-                <div *ngIf="activeImage !== null" class="inset-0 fixed flex items-center justify-between px-[3vw]">
+                <div
+                    *ngIf="activeImage !== null"
+                    class="inset-0 fixed flex md:items-center md:justify-between items-end pb-10 justify-center gap-12 px-[2vw] z-10"
+                >
                     <span (click)="activeImage = null" class="material-icons fixed right-4 top-4 cursor-pointer">close</span>
                     <span
                         [style.fontSize]="'3rem'"
@@ -158,7 +161,7 @@
                         class="material-icons cursor-pointer hover:brightness-150 duration-300"
                         >keyboard_arrow_left</span
                     >
-                    {{ activeImage }}
+
                     <span
                         [style.fontSize]="'3rem'"
                         (click)="activeImage = activeImage === 0 ? info.screenshots.length - 1 : activeImage - 1"

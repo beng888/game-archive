@@ -1,26 +1,60 @@
-<div *ngIf="details$ | async as details" class="px-2 xl:px-10 relative mt-12">
-    <div
-        [ngStyle]="{ 'background-image': 'url(' + details.background_image_additional + ')' }"
-        class="h-screen w-full blur-sides fixed left-0 top-0 opacity-30 pointer-events-none bg-no-repeat bg-cover"
-    ></div>
+<div *ngIf="details$ | async as details" class="px-2 xl:px-10 relative py-12">
     <!-- <img class="blur-sides" src="{{ details.background_image_additional }}" alt="{{ details.background_image_additional }}" /> -->
+    <div class="absolute inset-0">
+        <div
+            [ngStyle]="{ 'background-image': 'url(' + details.background_image_additional + ')' }"
+            class="h-screen w-full blur-sides sticky left-0 top-0 opacity-40 pointer-events-none bg-no-repeat bg-cover bg-center"
+        ></div>
+    </div>
 
-    <div class="grid grid-cols-2 lg:grid-cols-3 mt-8 gap-4">
+    <div class="grid grid-cols-2 lg:grid-cols-3 mt-8 gap-4 max-w-7xl mx-auto">
         <div class="col-span-2 lg:col-span-1">
             <div class="sticky top-4 max-w-2xl mx-auto">
-                <app-media-card [trailers]="details.trailers" [background_image]="details.background_image"></app-media-card>
+                <!-- <div
+                    *ngIf="gameDetailsLoading$ | async; else media"
+                    class="bg-black skeleton w-full h-64 md:h-[450px] lg:h-64 grid place-content-center"
+                >
+                    <img src="assets/images/G.svg" class="h-14 w-14" />
+                </div>
 
-                <app-add-buy-buttons [stores]="details.stores" [vendors]="details.vendors"></app-add-buy-buttons>
+                <ng-template #media> -->
+                <app-media-card
+                    [loading]="gameDetailsLoading$ | async"
+                    [trailers]="details.trailers"
+                    [background_image]="details.background_image"
+                ></app-media-card>
+                <!-- </ng-template> -->
+
+                <app-add-buy-buttons
+                    *ngIf="!(gameDetailsLoading$ | async)"
+                    [stores]="details.stores"
+                    [vendors]="details.vendors"
+                ></app-add-buy-buttons>
+
                 <app-ratings [ratings]="details.ratings"></app-ratings>
             </div>
         </div>
-        <div class="col-span-2 z-10">
+        <div [ngClass]="{ skeleton: (gameDetailsLoading$ | async) }" class="col-span-2 z-10">
             <app-game-info [info]="details"></app-game-info>
             <app-game-posts
                 *ngIf="Array.isArray(details.reddit_posts) && details.reddit_posts.length"
                 [posts]="details.reddit_posts"
-                [next]="details.next_posts_page"
+                [next]="details.loadNextPostsPage"
             ></app-game-posts>
         </div>
     </div>
+
+    <!-- <div class="flex justify-around gap-4 text-center h-20 my-12">
+        <a
+            href="{{ metacritic.url }}"
+            target="_blank"
+            *ngFor="let metacritic of details.metacritic_platforms"
+            class="duration-300 hover:drop-shadow-2xl hover:brightness-125 hover:scale-105 transform hover:z-10 cursor-pointer"
+        >
+            <img src="assets/images/{{ metacritic?.platform?.slug }}.svg" alt="{{ metacritic?.platform?.name }}" class="w-full h-full" />
+            <p [style.color]="getColor(metacritic.metascore)" class="text-3xl">
+                {{ metacritic.metascore }}
+            </p>
+        </a>
+    </div> -->
 </div>

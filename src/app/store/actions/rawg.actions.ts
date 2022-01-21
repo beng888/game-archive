@@ -13,105 +13,113 @@ import { createAction, props } from '@ngrx/store';
 /* -------------------------- LOAD PARENT PLATFORMS ------------------------- */
 
 export const loadParentPlatforms = createAction(
-    '[Header Component] Load Parent Platforms'
+    'loadParentPlatforms: [Header Component]'
 );
 
 export const loadParentPlatformsSuccess = createAction(
-    '[Header Component] Load Parent Platforms Success',
+    'loadParentPlatforms: [Header Component] Success',
     (data: Res<List>) => data
 );
 
 export const loadParentPlatformsFailure = createAction(
-    '[Header Component] Load Parent Platforms Failure',
+    'loadParentPlatforms: [Header Component] Failure',
     (data: any) => data
 );
 
 /* ------------------------------- LOAD GENRES ------------------------------ */
 
-export const loadGenres = createAction('[Header Component] Load Genres');
+export const loadGenres = createAction('loadGenres: [Header Component]');
 
 export const loadGenresSuccess = createAction(
-    '[Header Component] Load Genres Success',
+    'loadGenres: [Header Component] Success',
     (data: Res<List>) => data
 );
 
 export const loadGenresFailure = createAction(
-    '[Header Component] Load Genres Failure',
+    'loadGenres: [Header Component] Failure',
     (data: any) => data
 );
 
 /* ------------------------------- LOAD GAMES ------------------------------- */
 
+export const loadGames = createAction('LoadGames: [Header Component]');
+
 export const loadGamesSuccess = createAction(
-    '[Header Component] Load Games Success',
+    'LoadGames: [Header Component] Success',
     (data: Res<Game>) => data
 );
 
 export const loadGamesFailure = createAction(
-    '[Header Component] Load Games Failure',
+    'LoadGames: [Header Component] Failure',
     (data: any) => data
 );
 
 /* ------------------------------- LOAD BROWSE ------------------------------- */
 
+export const loadBrowse = createAction('loadBrowse: [Browser Page]');
+
 export const loadBrowseSuccess = createAction(
-    '[Browser Page] Load Browse Success',
+    'loadBrowse: [Browser Page] Success',
     (data: Res<Browse>) => data
 );
 
 export const loadBrowseFailure = createAction(
-    '[Browser Page] Load Browse Failure',
+    'loadBrowse: [Browser Page] Failure',
     (data: any) => data
 );
 
 /* ---------------------------- LOAD GAME DETAILS --------------------------- */
 
+export const loadGameDetails = createAction(
+    'loadGameDetails: [Details Component]'
+);
+
 export const loadGameDetailsSuccess = createAction(
-    '[Header Component] Load Game Details Success',
+    'loadGameDetails: [Details Component] Success',
     (data: {
         screenshots: ScreenShot[];
         trailers: Trailer[];
         vendors: Vendor[];
         reddit_posts: RedditPost[];
-        next_posts_page: string | null;
+        loadNextPostsPage: string | null;
     }) => data
 );
 
 export const loadGameDetailsFailure = createAction(
-    '[Header Component] Load Game Details Failure',
+    'loadGameDetails: [Details Component] Failure',
     (data: any) => data
 );
 
 /* -------------------------- LOAD NEXT POSTS PAGE -------------------------- */
 
 export const loadNextPostsPage = createAction(
-    '[game-posts Component] Load Game Details Next Reddit Posts Page',
+    'loadNextPostsPage: [game-posts Component]',
     (data: any) => data
 );
 
 export const loadNextPostsPageSuccess = createAction(
-    '[game-posts Component] Load Game Details Next Reddit Posts Page Success',
+    'loadNextPostsPage: [game-posts Component] Success',
     (data: any) => data
 );
 
 export const loadNextPostsPageFailure = createAction(
-    '[game-posts Component] Load Game Details Next Reddit Posts Page Failure',
+    'loadNextPostsPage: [game-posts Component] Failure',
     (data: any) => data
 );
 
 /* -------------------------- LOAD NEXT GAMES PAGE -------------------------- */
 
 export const loadNextGamesPage = createAction(
-    '[Home Component] Load Game Cards Next Page',
+    'loadNextGamesPage: [Home Component]',
     (data: any) => data
 );
 
 export const loadNextGamesPageSuccess = createAction(
-    '[Home Component] Load Game Cards Next Page Success',
+    'loadNextGamesPage: [Home Component] Success',
     (data: any) => data
 );
 
 export const loadNextGamesPageFailure = createAction(
-    '[Home Component] Load Game Cards Next Page Failure',
+    'loadNextGamesPage: [Home Component] Failure',
     (data: any) => data
 );

@@ -21,6 +21,7 @@ export class MediaCardComponent implements OnInit {
     @Input() background_image!: string | null;
     @ViewChildren('videoEl') videoEl!: QueryList<ElementRef>;
     @ViewChild('mainVideoEl') mainVideoEl!: ElementRef<any>;
+    @Input() loading!: boolean | null;
 
     Array = Array;
     selectedMedia: number = 0;
