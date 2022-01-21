@@ -50,6 +50,7 @@ export interface State {
     loadNextPostsPage: string | null;
     loading: string[];
     metacritic_platforms: any[];
+    scrollToTop: boolean;
 }
 
 export const initialState: State = {
@@ -96,6 +97,7 @@ export const initialState: State = {
     loadNextPostsPage: null,
     loading: [],
     metacritic_platforms: [],
+    scrollToTop: true,
 };
 
 export const reducer = createReducer(
@@ -188,5 +190,12 @@ export const reducer = createReducer(
                 [loadType]: action[loadType],
             };
         }
-    )
+    ),
+
+    /* -------------------------------------------------------------------------- */
+    /*                                    MISC                                    */
+    /* -------------------------------------------------------------------------- */
+    on(fromRawgActions.hideScrollToTop, (state, action) => {
+        return { ...state, scrollToTop: action.bool };
+    })
 );

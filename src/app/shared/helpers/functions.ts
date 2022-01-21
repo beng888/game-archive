@@ -1,25 +1,33 @@
 export const getImage = (image: string, size?: string) => {
-    if (image) {
-        if (size === 'small') {
-            if (image.includes('media/games'))
-                return image.replace('media/games', 'media/resize/420/-/games');
-            if (image.includes('media/screenshots'))
-                return image.replace(
-                    'media/screenshots',
-                    'media/resize/420/-/screenshots'
-                );
-            return image;
-        }
-        if (image.includes('media/games'))
-            return image.replace('media/games', 'media/crop/600/400/games');
-        if (image.includes('media/screenshots'))
-            return image.replace(
-                'media/screenshots',
-                'media/resize/640/-/screenshots'
-            );
-        return image;
-    }
-    return 'assets/images/no-image.jpg';
+    const width = window.innerWidth;
+
+    const resize = {
+        games:
+            (size === 'small' && width > 768) ||
+            size === 'always-small' ||
+            (width < 480 && size !== 'always-medium')
+                ? 'resize/420/-/'
+                : size === 'medium' || size === 'always-medium' || width < 768
+                ? 'crop/600/400/'
+                : '',
+        screenshots:
+            (size === 'small' && width > 768) ||
+            size === 'always-small' ||
+            (width < 480 && size !== 'always-medium')
+                ? 'resize/420/-/'
+                : size === 'medium' || size === 'always-medium' || width < 768
+                ? 'resize/640/-/'
+                : '',
+    };
+
+    if (image.includes('media/games'))
+        return image.replace('media/games', `media/${resize.games}games`);
+    if (image.includes('media/screenshots'))
+        return image.replace(
+            'media/screenshots',
+            `media/${resize.screenshots}screenshots`
+        );
+    return image;
 };
 
 export const getColor = (value: number): string => {

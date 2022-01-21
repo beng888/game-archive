@@ -7,7 +7,10 @@ import {
 } from '@angular/core';
 import { Rating } from '@core/interfaces/rawg';
 import { getColor, getImage } from '@shared/helpers/functions';
+import { hideScrollToTop } from '@store/actions/rawg.actions';
 import { State } from '@store/reducers/rawg.reducer';
+import { Appstate } from '@store/index';
+import { Store } from '@ngrx/store';
 
 @Component({
     selector: 'app-game-info',
@@ -25,6 +28,11 @@ export class GameInfoComponent implements OnInit {
         this.activeImage = null;
     }
 
+    public loadedImages: number[] = [];
+
+    hideOrShowScroller = (bool: boolean) =>
+        this.store.dispatch(hideScrollToTop(bool));
+
     getColor = getColor;
     getImage = getImage;
 
@@ -37,10 +45,8 @@ export class GameInfoComponent implements OnInit {
 
     onClick = (event: any) => {
         var target = event.target || event.srcElement || event.currentTarget;
-
-        console.log('%c⧭', 'color: #00e600', target.scrollLeft);
     };
 
     ngOnInit(): void {}
-    constructor() {}
+    constructor(private store: Store<Appstate>) {}
 }

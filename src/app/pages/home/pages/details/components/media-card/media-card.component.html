@@ -41,7 +41,7 @@
         <div [ngClass]="{ skeleton: loading }">
             <img
                 *ngIf="!loading && background_image; else black"
-                src="{{ background_image && getImage(background_image) }}"
+                src="{{ background_image && getImage(background_image, 'small') }}"
                 alt="{{ background_image }}"
                 class="object-fill w-full"
             />

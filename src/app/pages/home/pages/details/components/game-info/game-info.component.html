@@ -141,20 +141,22 @@
 
         <div class="flex h-32 gap-4 overflow-x-auto scroll-bar">
             <img
-                (click)="activeImage = i"
+                (click)="activeImage = i; hideOrShowScroller(false)"
                 *ngFor="let screenshot of info.screenshots; index as i"
-                src="{{ getImage(screenshot.image, 'small') }}"
+                src="{{ getImage(screenshot.image, 'always-small') }}"
                 class="h-full rounded-md cursor-pointer"
             />
             <div
                 [ngClass]="activeImage !== null ? 'opacity-100' : 'opacity-0 duration-1000 pointer-events-none'"
-                class="fixed inset-0 bg-black grid place-content-center"
+                class="fixed inset-0 bg-black grid place-content-center overscroll-none"
             >
                 <div
                     *ngIf="activeImage !== null"
-                    class="inset-0 fixed flex md:items-center md:justify-between items-end pb-10 justify-center gap-12 px-[2vw] z-10"
+                    class="inset-0 fixed flex md:items-center md:justify-between items-end pb-10 justify-center gap-12 px-[2vw] z-20"
                 >
-                    <span (click)="activeImage = null" class="material-icons fixed right-4 top-4 cursor-pointer">close</span>
+                    <span (click)="activeImage = null; hideOrShowScroller(true)" class="material-icons fixed right-4 top-4 cursor-pointer"
+                        >close</span
+                    >
                     <span
                         [style.fontSize]="'3rem'"
                         (click)="activeImage = activeImage === 0 ? info.screenshots.length - 1 : activeImage - 1"
@@ -170,10 +172,18 @@
                     >
                 </div>
                 <img
-                    [attr.src]="activeImage !== null ? info.screenshots[activeImage].image : ''"
+                    (load)="activeImage !== null && !loadedImages.includes(activeImage) && loadedImages.push(activeImage)"
+                    [attr.src]="activeImage !== null ? getImage(info.screenshots[activeImage].image) : ''"
                     [ngClass]="activeImage !== null ? 'scale-100' : 'scale-75'"
                     class="transform duration-500 object-contain max-h-screen"
                 />
+
+                <div
+                    *ngIf="activeImage !== null && !(activeImage !== null && loadedImages.includes(activeImage))"
+                    class="fixed inset-0 z-10 bg-black grid place-content-center"
+                >
+                    <img src="assets/images/image_loader.gif" [ngClass]="activeImage !== null ? 'scale-100' : 'scale-75'" />
+                </div>
             </div>
         </div>
     </div>

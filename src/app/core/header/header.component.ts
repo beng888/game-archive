@@ -5,7 +5,7 @@ import {
     OnInit,
     ViewChild,
 } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Appstate } from 'src/app/store';
 import { headerLinks } from './static';
 import { selectCurrentRoute } from 'src/app/store/selectors/router.selectors';
@@ -16,6 +16,7 @@ import { filter, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { RawgService } from '@core/services/rawg.service';
 import { Game, Res } from '@core/interfaces/rawg';
 import { getImage } from '@shared/helpers/functions';
+import { selectScrollToTop } from '@store/selectors/rawg.selectors';
 
 @Component({
     selector: 'app-header',
@@ -29,6 +30,9 @@ export class HeaderComponent implements OnInit {
     public route = this.store.select(selectCurrentRoute);
     public searchResults: Array<Game> | null = null;
     private searchInputValue$ = new Subject<any>();
+
+    public showScrollToTop$ = this.store.pipe(select(selectScrollToTop));
+
     getImage = getImage;
 
     @ViewChild('searchInput') searchInput!: ElementRef;

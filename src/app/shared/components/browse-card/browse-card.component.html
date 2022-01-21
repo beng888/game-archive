@@ -2,9 +2,8 @@
     [ngClass]="{ skeleton: loading }"
     class="relative transform duration-300 h-full px-4 py-6 rounded-2xl hover:z-30 hover:scale-105 hover:border-primary-400 border-2 border-transparent text-white"
 >
-    {{ loading }}
     <img
-        src="{{ getImage(item.image_background) }}"
+        src="{{ getImage(item.image_background, 'always-medium') }}"
         alt="{{ item.name }}"
         class="absolute h-full w-full object-cover inset-0 rounded-2xl z-[-1] opacity-50"
     />

@@ -1,3 +1,5 @@
+<div [ngClass]="{ skeleton: browseLoading$ | async }" class="h-2 w-full"></div>
+
 <div class="max-w-7xl mx-auto my-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
     <app-browse-card [loading]="browseLoading$ | async" *ngFor="let item of browse$ | async" [item]="item"></app-browse-card>
 </div>

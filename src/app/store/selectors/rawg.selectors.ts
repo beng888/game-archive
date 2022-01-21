@@ -78,3 +78,10 @@ export const selectLoading = (props: string) =>
     createSelector(selectRawgFeature, (state: State): boolean =>
         state.loading.includes(props)
     );
+
+/* ---------------------------------- MISC ---------------------------------- */
+
+export const selectScrollToTop = createSelector(
+    selectRawgFeature,
+    (state: State) => state.scrollToTop
+);

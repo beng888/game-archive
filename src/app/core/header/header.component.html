@@ -1,4 +1,4 @@
-<div #head class="sm:h-16 bg-gradient-to-br from-primary-700 to-primary-400" *ngIf="route | async as route">
+<div #head class="sm:h-16 bg-gradient-to-br from-primary-700 to-primary-600" *ngIf="route | async as route">
     <div class="max-w-screen-2xl mx-auto flex items-center h-full px-2 md:px-4 py-2 sm:py-0 gap-2 justify-between text-white">
         <span (click)="menuOpen = !menuOpen" class="material-icons cursor-pointer text-4xl sm:hidden">{{
             !menuOpen ? "menu" : "close"
@@ -105,7 +105,11 @@
     </div>
 </div>
 
-<div class="fixed bottom-4 right-4 opacity-0 hover:opacity-100 duration-300 z-40" [ngClass]="{ 'opacity-50': windowScrolled }">
+<div
+    *ngIf="(showScrollToTop$ | async) !== false"
+    class="fixed bottom-4 right-4 opacity-0 pointer-events-none hover:opacity-100 duration-300 z-40"
+    [ngClass]="{ 'opacity-50 pointer-events-auto': windowScrolled }"
+>
     <button (click)="scrollToTop()">
         <span class="material-icons text-5xl">arrow_circle_up</span>
     </button>

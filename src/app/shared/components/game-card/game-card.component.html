@@ -1,4 +1,4 @@
-<div [ngClass]="{ 'skeleton rounded-2xl': loading, 'w-8/12 mx-auto': view === 'crop_square' }" class="h-full">
+<div [ngClass]="{ skeleton: loading, 'rounded-2xl': view !== 'view_list', 'max-w-3xl mx-auto': view === 'crop_square' }" class="h-full">
     <div
         [ngClass]="{ 'pointer-events-none': loading }"
         class="relative hover:z-10 z-0 group hover:scale-105 transform duration-300 h-full rounded-2xl"
@@ -8,21 +8,21 @@
             (mouseleave)="onHover(0)"
             class="rounded-t-2xl h-full flex flex-col justify-between border-2 border-b-0 border-transparent group-hover:border-primary-400"
         >
-            <a [routerLink]="['/games', game.slug]" class="h-52 relative flex">
+            <div class="h-52 relative flex">
                 <div
                     *ngFor="let screenshot of game.short_screenshots; index as i"
-                    class="w-full px-2 h-full flex flex-col justify-end cursor-pointer z-10 opacity-50 hover:opacity-80"
+                    class="w-full px-1 h-full flex flex-col justify-end cursor-pointer z-10 opacity-50 hover:opacity-80"
                     (mouseover)="onHover(i)"
                 >
                     <div class="h-1 rounded-lg bg-gray-200 mb-3"></div>
                 </div>
                 <img
-                    src="{{ getImage(game?.short_screenshots?.[screenshot]?.image || game.background_image ||'', 'small') || 'assets/images/no-image.jpg'  }}"
-                    alt="{{ getImage(game?.short_screenshots?.[screenshot]?.image || game.background_image ||'', 'small') || 'assets/images/no-image.jpg'  }}"
+                    src="{{ getImage(game?.short_screenshots?.[screenshot]?.image || game.background_image ||'', 'always-small') || 'assets/images/no-image.jpg'  }}"
+                    alt="{{ getImage(game?.short_screenshots?.[screenshot]?.image || game.background_image ||'', 'always-small') || 'assets/images/no-image.jpg'  }}"
                     class="absolute left-0 pointer-events-none h-full w-full rounded-t-2xl object-cover"
                 />
-            </a>
-            <div class="p-4 flex-1 bg-dark-500 rounded-b-2xl group-hover:rounded-none">
+            </div>
+            <div class="p-2 lg:p-4 flex-1 bg-dark-500 rounded-b-2xl group-hover:rounded-none">
                 <div class="flex justify-between items-center mb-2 h-4">
                     <div class="flex gap-2">
                         <img
@@ -42,11 +42,15 @@
                         {{ game.metacritic || "" }}
                     </p>
                 </div>
-                <a [routerLink]="['/games', game.slug]" class="text-2xl self-start overflow-hidden overflow-ellipsis">{{ game.name }}</a>
+                <a
+                    [routerLink]="['/games', game.slug]"
+                    class="sm:text-lg md:text-xl tracking-wider font-semibold lg:font-normal lg:tracking-normal lg:text-2xl self-start overflow-hidden overflow-ellipsis"
+                    >{{ game.name }}</a
+                >
             </div>
         </div>
         <div
-            class="px-4 pb-4 absolute text-sm max-h-0 overflow-hidden opacity-0 inset-x-0 rounded-b-2xl bg-dark-500 bottom-0 transform translate-y-full group-hover:max-h-screen group-hover:overflow-visible group-hover:opacity-100 border-2 border-t-0 border-primary-400"
+            class="p-2 lg:p-4 absolute text-sm max-h-0 overflow-hidden opacity-0 inset-x-0 rounded-b-2xl bg-dark-500 bottom-0 transform translate-y-full group-hover:max-h-screen group-hover:overflow-visible group-hover:opacity-100 border-2 border-t-0 border-primary-400"
         >
             <p class="flex justify-between border-b py-2">
                 <span class="text-gray-500"> Release date: </span>
@@ -66,11 +70,13 @@
     </div>
 
     <div class="flex gap-1" *ngIf="view === 'view_list'">
-        <img
-            class="w-28 object-cover"
-            src="{{ getImage(game?.short_screenshots?.[screenshot]?.image || game.background_image ||'','small') || 'assets/images/no-image.jpg'  }}"
-            alt="{{ getImage(game?.short_screenshots?.[screenshot]?.image || game.background_image ||'','small') || 'assets/images/no-image.jpg'  }}"
-        />
+        <a [routerLink]="['/games', game.slug]">
+            <img
+                class="min-w-28 w-28 h-full object-cover"
+                src="{{ getImage(game?.short_screenshots?.[screenshot]?.image || game.background_image ||'','always-small') || 'assets/images/no-image.jpg'  }}"
+                alt="{{ getImage(game?.short_screenshots?.[screenshot]?.image || game.background_image ||'','always-small') || 'assets/images/no-image.jpg'  }}"
+            />
+        </a>
         <div class="grid content-center w-full bg-gray-700 p-2 min-h-full">
             <div class="flex justify-between">
                 <a [routerLink]="['/games', game.slug]" class="text-xl self-start overflow-hidden overflow-ellipsis link">{{
@@ -80,7 +86,7 @@
                     *ngIf="game.metacritic"
                     [style.color]="getColor(game.metacritic)"
                     [style.borderColor]="getColor(game.metacritic) || 'transparent'"
-                    class="rounded-md px-1 border-2"
+                    class="rounded-md px-1 border-2 h-[fit-content]"
                 >
                     {{ game.metacritic }}
                 </div>
@@ -111,11 +117,12 @@
     </div>
 
     <div class="bg-dark-500 mx-auto rounded-2xl overflow-hidden" *ngIf="view === 'crop_square'">
-        <img
-            class="object-cover w-full"
-            src="{{ getImage(game?.short_screenshots?.[screenshot]?.image || game.background_image ||'') || 'assets/images/no-image.jpg'  }}"
-            alt="{{ getImage(game?.short_screenshots?.[screenshot]?.image || game.background_image ||'') || 'assets/images/no-image.jpg'  }}"
-        />
+        <a [routerLink]="['/games', game.slug]">
+            <img
+                class="object-cover w-full"
+                src="{{ getImage(game?.short_screenshots?.[screenshot]?.image || game.background_image ||'','medium') || 'assets/images/no-image.jpg'  }}"
+                alt="{{ getImage(game?.short_screenshots?.[screenshot]?.image || game.background_image ||'','medium') || 'assets/images/no-image.jpg'  }}"
+        /></a>
         <div class="p-4">
             <div class="flex gap-2 mb-2">
                 <img

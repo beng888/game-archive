@@ -123,3 +123,10 @@ export const loadNextGamesPageFailure = createAction(
     'loadNextGamesPage: [Home Component] Failure',
     (data: any) => data
 );
+
+/* ---------------------------------- MISC ---------------------------------- */
+
+export const hideScrollToTop = createAction(
+    'loadParentPlatforms: [Header Component] Success',
+    (data: any) => ({ bool: data })
+);
