@@ -1,4 +1,4 @@
-export const getImage = (image: string, size?: string) => {
+export const getImage = (image: string | null, size?: string) => {
     const width = window.innerWidth;
 
     const resize = {

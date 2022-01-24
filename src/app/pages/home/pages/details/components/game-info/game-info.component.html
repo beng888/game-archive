@@ -19,10 +19,10 @@
 
     <p class="text-3xl font-semibold">{{ info.name_original }}</p>
 
-    <p class="flex gap-2 mt-2">
+    <p *ngIf="info.playtime && info.playtime > 0" class="flex gap-2 mt-2">
         <span class="font-semibold">{{ info.playtime }} </span>Hours Average Playtime
     </p>
-    <p class="flex gap-2">
+    <p *ngIf="info.reviews_count && info.reviews_count > 0" class="flex gap-2">
         <span class="font-semibold">{{ info.reviews_count }} </span>Member Reviews
     </p>
     <p class="text-2xl font-semibold mt-6">About {{ info.name_original }}</p>
@@ -144,6 +144,7 @@
                 (click)="activeImage = i; hideOrShowScroller(false)"
                 *ngFor="let screenshot of info.screenshots; index as i"
                 src="{{ getImage(screenshot.image, 'always-small') }}"
+                alt="{{ getImage(screenshot.image, 'always-small') }}"
                 class="h-full rounded-md cursor-pointer"
             />
             <div

@@ -124,31 +124,33 @@
                 alt="{{ getImage(game?.short_screenshots?.[screenshot]?.image || game.background_image ||'','medium') || 'assets/images/no-image.jpg'  }}"
         /></a>
         <div class="p-4">
-            <div class="flex gap-2 mb-2 flex-wrap">
-                <img
-                    title="{{ platform.platform.name }}"
-                    *ngFor="let platform of game.parent_platforms"
-                    src="assets/images/{{ platform.platform.slug }}.svg"
-                    alt="{{ platform.platform.name }}"
-                    class="h-4"
-                />
-            </div>
-            <a [routerLink]="['/games', game.slug]" class="text-3xl link font-bold self-start overflow-hidden overflow-ellipsis">{{
-                game.name
-            }}</a>
-            <p class="flex gap-4 mt-4 flex-wrap">
-                <span class="text-gray-500 flex gap-2">
-                    Metascore:
-                    <span
-                        [style.color]="getColor(game.metacritic)"
-                        [style.borderColor]="getColor(game.metacritic) || 'transparent'"
-                        class="w-7 h-7 rounded-md px-1 border grid place-content-center"
-                    >
-                        {{ game.metacritic || "n/a" }}
-                    </span>
+            <div class="flex justify-between">
+                <div class="flex gap-2 mb-2 flex-wrap">
+                    <img
+                        title="{{ platform.platform.name }}"
+                        *ngFor="let platform of game.parent_platforms"
+                        src="assets/images/{{ platform.platform.slug }}.svg"
+                        alt="{{ platform.platform.name }}"
+                        class="h-4"
+                    />
+                </div>
+                <span
+                    *ngIf="game.metacritic"
+                    [style.color]="getColor(game.metacritic)"
+                    [style.borderColor]="getColor(game.metacritic) || 'transparent'"
+                    class="w-7 h-7 rounded-md px-1 border grid place-content-center"
+                >
+                    {{ game.metacritic }}
                 </span>
+            </div>
+            <a
+                [routerLink]="['/games', game.slug]"
+                class="text-3xl link font-bold self-start overflow-hidden overflow-ellipsis hover:text-primary-600 duration-300"
+                >{{ game.name }}</a
+            >
+            <p class="flex gap-4 mt-4 flex-wrap items-center">
                 <span> <span class="text-gray-500"> Release date:</span> {{ game.released | date }} </span>
-                <span class="text-gray-500 flex gap-4 mt-2">
+                <span class="text-gray-500 flex gap-4">
                     Genres:
                     <span>
                         <span class="link_ cursor-pointer" (click)="selectGenre(genre.id)" *ngFor="let genre of game.genres; last as L">

@@ -4,7 +4,7 @@
 >
     <img
         src="{{ getImage(item.image_background, 'always-medium') }}"
-        alt="{{ item.name }}"
+        alt="{{ getImage(item.image_background, 'always-medium') }}"
         class="absolute h-full w-full object-cover inset-0 rounded-2xl z-[-1] opacity-50"
     />
     <div class="z-10 text-center flex flex-col justify-between h-full">
@@ -31,10 +31,8 @@
             </p>
 
             <div>
-                <p *ngFor="let game of item.games" class="flex justify-between my-1">
-                    <a [routerLink]="['/games', game.slug]" class="text-xl self-start overflow-hidden overflow-ellipsis link">{{
-                        game.name
-                    }}</a>
+                <p *ngFor="let game of item.games" class="flex justify-between my-1 items-start text-left">
+                    <a [routerLink]="['/games', game.slug]" class="text-xl overflow-hidden overflow-ellipsis link">{{ game.name }}</a>
                     <!-- <span class="underline text-left"> {{ game.name }} </span> -->
                     <span class="flex items-center">
                         {{ game.added | number: "1.0":"en-US" }} <span class="material-icons">person_outline</span>

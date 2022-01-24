@@ -18,7 +18,7 @@ import { getImage } from '@shared/helpers/functions';
 })
 export class MediaCardComponent implements OnInit {
     @Input() trailers!: Trailer[];
-    @Input() background_image!: string | null;
+    @Input() background_image: string | null = null;
     @ViewChildren('videoEl') videoEl!: QueryList<ElementRef>;
     @ViewChild('mainVideoEl') mainVideoEl!: ElementRef<any>;
     @Input() loading!: boolean | null;

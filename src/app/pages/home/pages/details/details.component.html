@@ -26,7 +26,7 @@
                 <!-- </ng-template> -->
 
                 <app-add-buy-buttons
-                    *ngIf="!(gameDetailsLoading$ | async)"
+                    *ngIf="!(gameDetailsLoading$ | async) && details.stores.length > 0"
                     [stores]="details.stores"
                     [vendors]="details.vendors"
                 ></app-add-buy-buttons>

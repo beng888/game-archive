@@ -40,9 +40,9 @@
     <ng-template #BG>
         <div [ngClass]="{ skeleton: loading }">
             <img
-                *ngIf="!loading && background_image; else black"
-                src="{{ background_image && getImage(background_image, 'small') }}"
-                alt="{{ background_image }}"
+                *ngIf="!loading; else black"
+                src="{{ getImage(background_image, 'small') }}"
+                alt="{{ getImage(background_image, 'small') }}"
                 class="object-fill w-full"
             />
             <ng-template #black>
