@@ -59,8 +59,8 @@
         >
 
         <div
-            [ngClass]="filtering ? 'max-h-screen duration-1000' : 'max-h-0 duration-300'"
-            class="flex justify-center flex-wrap gap-2 overflow-hidden"
+            [ngClass]="filtering ? 'max-h-screen duration-300' : 'max-h-0 opacity-0 overflow-hidden duration-300'"
+            class="flex flex-col sm:flex-row justify-center sm:flex-wrap gap-2 sm:overflow-visible w-full sm:w-max"
         >
             <ng-container *ngFor="let filter of Filters">
                 <ng-container *ngIf="filter[1] | async as options">

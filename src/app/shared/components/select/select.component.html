@@ -1,11 +1,14 @@
+<!-- {{ selecting }} -->
 <div
+    *ngFor="let isMobile of [isMobile$ | async]"
     tabindex="0"
-    (click)="selecting = !selecting"
+    (focus)="selecting = true"
+    (click)="selecting === false && (selecting = !selecting)"
     (blur)="selecting = false"
     [ngClass]="!selecting ? 'border-2 border-gray-400 hover:border-primary-600 duration-200 z-10' : 'border-transparent z-20'"
-    class="bg-gray-700 w-[fit-content] border cursor-pointer rounded-2xl relative shadow-md whitespace-nowrap text-sm text-white"
+    class="bg-gray-700 sm:w-[fit-content] border cursor-pointer rounded-2xl relative shadow-md whitespace-nowrap sm:text-sm text-white"
 >
-    <div class="peer flex justify-between items-center px-2 py-1 min-w-[150px]">
+    <div class="flex justify-between items-center px-2 py-1 min-w-[150px]">
         <div>
             {{ placeHolder }}
             <span *ngIf="selected"
@@ -17,8 +20,9 @@
     <div [ngClass]="{ 'max-h-full overflow-visible': selecting }" class="max-h-0 w-full absolute top-0 overflow-hidden">
         <div class="border-primary-600 border-2 rounded-2xl bg-gray-700 shadow-lg">
             <p
+                click-stop-propagation
                 class="rounded-t-2xl border-b font-semibold px-2 py-1 hover:bg-gray-500 duration-300"
-                (click)="onSelect(select_1[0], '', '')"
+                (click)="onSelect(select_1[0], '', ''); selecting = false"
             >
                 Clear
             </p>
@@ -26,25 +30,58 @@
                 <div
                     [ngClass]="{ 'bg-gray-400': selected === label, 'rounded-b-2xl': L }"
                     *ngIf="getLabel(option, label_1) as label"
-                    class="relative group px-2 py-1 hover:bg-gray-500 duration-300 hover:z-10"
+                    class="relative group sm:hover:bg-gray-500 duration-300 hover:z-10"
                 >
-                    <p (click)="onSelect(select_1[0], option[select_1[1]], option[select_1[2]])" class="flex justify-between items-center">
+                    <p
+                        *ngIf="!isMobile; else mobile"
+                        click-stop-propagation
+                        (click)="onSelect(select_1[0], option[select_1[1]], option[select_1[2]])"
+                        class="flex justify-between items-center px-2 py-1"
+                    >
                         <span class="overflow-ellipsis overflow-hidden capitalize max-w-full whitespace-nowrap">{{ label }}</span>
                         <span *ngIf="options2 && option[options2].length > 1" class="material-icons">keyboard_arrow_right</span>
                     </p>
+
+                    <ng-template #mobile>
+                        <p
+                            *ngFor="let clickable of [options2 && option[options2].length === 1]"
+                            click-stop-propagation
+                            (click)="
+                                clickable && onSelect(select_1[0], option[select_1[1]], option[select_1[2]]);
+                                clickable && (selecting = false)
+                            "
+                            [ngClass]="{ 'group-hover:text-primary-500': selecting }"
+                            class="flex justify-between items-center px-2 py-1"
+                        >
+                            <span class="overflow-ellipsis overflow-hidden capitalize max-w-full whitespace-nowrap">{{ label }}</span>
+                            <span *ngIf="options2 && option[options2].length > 1" class="material-icons">keyboard_arrow_down</span>
+                        </p>
+                    </ng-template>
                     <div
+                        [ngClass]="{ 'group-hover:max-h-screen': selecting }"
                         *ngIf="options2 && label_2 && select_2 && option[options2].length > 1"
-                        class="absolute right-3 min-w-[100px] overflow-hidden bg-gray-700 hidden group-hover:block border-primary-600 border-2 rounded-2xl transform translate-x-full top-0 shadow-lg"
+                        class="sm:absolute sm:right-3 min-w-[100px] duration-500 max-h-0 sm:max-h-screen overflow-hidden bg-gray-700 sm:hidden sm:group-hover:border-2 sm:group-hover:block border-primary-600 sm:rounded-2xl transform sm:translate-x-full top-0 shadow-lg"
                     >
+                        <div
+                            *ngIf="isMobile"
+                            [ngClass]="{ 'bg-gray-400': selected === label, 'rounded-b-2xl': L }"
+                            class="px-2 py-1 hover:bg-gray-500 duration-300 border-b"
+                            click-stop-propagation
+                            (click)="onSelect(select_1[0], option[select_1[1]], option[select_1[2]]); selecting = false"
+                        >
+                            Select All
+                        </div>
                         <ng-container *ngFor="let option2 of option[options2]">
-                            <div
-                                *ngIf="getLabel(option2, label_2) as label"
-                                [ngClass]="{ 'bg-gray-400': selected === label }"
-                                class="px-2 py-1 hover:bg-gray-500 duration-300"
-                            >
-                                <p (click)="onSelect(select_2[0], option2[select_2[1]], option2[select_2[2]])">
-                                    {{ label }}
-                                </p>
+                            <div *ngIf="getLabel(option2, label_2) as label2">
+                                <div
+                                    *ngIf="label !== label2"
+                                    [ngClass]="{ 'bg-gray-400': selected === label2 }"
+                                    class="px-2 py-2 sm:py-1 hover:bg-gray-500 duration-300 border-b sm:border-0"
+                                    click-stop-propagation
+                                    (click)="onSelect(select_2[0], option2[select_2[1]], option2[select_2[2]]); selecting = false"
+                                >
+                                    {{ label2 }}
+                                </div>
                             </div>
                         </ng-container>
                     </div>

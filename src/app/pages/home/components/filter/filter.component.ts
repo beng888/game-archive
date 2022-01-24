@@ -115,9 +115,17 @@ export class FilterComponent implements OnInit {
 
     selectFilter(data: { key: string; value: string }) {
         const { key, value } = data;
+        console.log('%c%s', 'color: #731d1d', key);
+
+        const unnecessaryParam = () => {
+            if (key === 'parent_platforms') return 'platforms';
+            if (key === 'platforms') return 'parent_platforms';
+            return '';
+        };
+
         this.router.navigate(['games'], {
             // relativeTo: this.route,
-            queryParams: { [key]: value || null },
+            queryParams: { [key]: value || null, [unnecessaryParam()]: null },
             queryParamsHandling: 'merge',
             // skipLocationChange: true,
         });

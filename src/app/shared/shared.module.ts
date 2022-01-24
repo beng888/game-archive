@@ -10,6 +10,7 @@ import { ObserveVisibilityDirective } from './directives/observeVisibility.direc
 import { readMoreDirective } from './directives/readMore.directive';
 import { EllipsisLoaderDirective } from './directives/ellipsis-loader.directive';
 import { FooterComponent } from './components/footer/footer.component';
+import { ClickStopPropagation } from './directives/click-stop-propagation.directive';
 
 @NgModule({
     declarations: [
@@ -21,6 +22,7 @@ import { FooterComponent } from './components/footer/footer.component';
         readMoreDirective,
         EllipsisLoaderDirective,
         FooterComponent,
+        ClickStopPropagation,
     ],
     imports: [CommonModule, FormsModule, RouterModule],
     exports: [
@@ -36,6 +38,7 @@ import { FooterComponent } from './components/footer/footer.component';
         readMoreDirective,
         EllipsisLoaderDirective,
         FooterComponent,
+        ClickStopPropagation,
     ],
 })
 export class SharedModule {}

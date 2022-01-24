@@ -127,6 +127,11 @@ export const loadNextGamesPageFailure = createAction(
 /* ---------------------------------- MISC ---------------------------------- */
 
 export const hideScrollToTop = createAction(
-    'loadParentPlatforms: [Header Component] Success',
+    'hideScrollToTop: [Info Component]',
+    (data: any) => ({ bool: data })
+);
+
+export const isMobile = createAction(
+    'isMobile: [App Component]',
     (data: any) => ({ bool: data })
 );

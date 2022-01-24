@@ -51,6 +51,7 @@ export interface State {
     loading: string[];
     metacritic_platforms: any[];
     scrollToTop: boolean;
+    isMobile: boolean;
 }
 
 export const initialState: State = {
@@ -98,6 +99,7 @@ export const initialState: State = {
     loading: [],
     metacritic_platforms: [],
     scrollToTop: true,
+    isMobile: false,
 };
 
 export const reducer = createReducer(
@@ -124,6 +126,7 @@ export const reducer = createReducer(
             description: action.description || '',
             seo_description: action.seo_description || '',
             seo_h1: action.seo_h1 || '',
+            parent_platforms: state.parent_platforms,
         };
     }),
     on(fromRawgActions.loadBrowseSuccess, (state, { results }) => {
@@ -197,5 +200,8 @@ export const reducer = createReducer(
     /* -------------------------------------------------------------------------- */
     on(fromRawgActions.hideScrollToTop, (state, action) => {
         return { ...state, scrollToTop: action.bool };
+    }),
+    on(fromRawgActions.isMobile, (state, action) => {
+        return { ...state, isMobile: action.bool };
     })
 );

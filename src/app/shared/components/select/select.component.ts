@@ -7,6 +7,10 @@ import {
     EventEmitter,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { select, Store } from '@ngrx/store';
+import { isMobile } from '@store/actions/rawg.actions';
+import { selectIsMobile } from '@store/selectors/rawg.selectors';
+import { Appstate } from 'src/app/store';
 
 @Component({
     selector: 'app-select',
@@ -23,19 +27,20 @@ export class SelectComponent implements OnInit {
     @Input() select_2?: string[] = [''];
     @Output() selectFilter = new EventEmitter<{ key: string; value: string }>();
 
-    selecting: boolean = false;
-    selected: string | null = null;
+    public isMobile$ = this.store.pipe(select(selectIsMobile));
+    public selecting: boolean = false;
+    public selected: string | null = null;
 
     getLabel = (option: any, labels: string[]) =>
         labels.map((l) => option[l]).join(' - ');
 
     onSelect(key: string, value: string, value2: string) {
+        this.selecting = false;
         if (value === '' && value2 === '') this.selected = null;
         if (key === 'dates' && value !== '') {
             const val = `${value}-01-01,${value2}-12-31`;
             return this.selectFilter.emit({ key, value: val });
         }
-
         this.selectFilter.emit({ key, value });
     }
 
@@ -50,14 +55,12 @@ export class SelectComponent implements OnInit {
                     (this.select_2 && S[this.select_2[0]]) ||
                     S[this.select_1[0]];
 
-                const All = [
-                    ...this.options,
-                    ...this.options.reduce((a: any, o: any) => {
-                        if (this.options2)
-                            return a.concat(o[this.options2 || '']);
-                        return a;
-                    }, []),
-                ];
+                const parentPlatforms = this.options;
+
+                const platforms = parentPlatforms.reduce((a: any, o: any) => {
+                    if (this.options2) return a.concat(o[this.options2 || '']);
+                    return a;
+                }, []);
 
                 const years = Q.replace(',', '-')
                     .split('-')
@@ -65,10 +68,11 @@ export class SelectComponent implements OnInit {
                 const year =
                     years[0] === years[1] ? years[0] : years.join(' - ');
 
-                const match = All.find(
-                    (f) =>
-                        String(f[this.select_1[1]]) === Q ||
-                        String(f[this.select_1[2]]) === Q
+                const searchablePlatforms =
+                    'platforms' in S ? platforms : parentPlatforms;
+
+                const match = searchablePlatforms.find(
+                    (f: any) => String(f[this.select_1[1]]) === Q
                 );
 
                 this.selected =
@@ -76,5 +80,8 @@ export class SelectComponent implements OnInit {
             }
         });
     }
-    constructor(private route: ActivatedRoute) {}
+    constructor(
+        private route: ActivatedRoute,
+        private store: Store<Appstate>
+    ) {}
 }

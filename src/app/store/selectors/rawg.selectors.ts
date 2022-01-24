@@ -85,3 +85,8 @@ export const selectScrollToTop = createSelector(
     selectRawgFeature,
     (state: State) => state.scrollToTop
 );
+
+export const selectIsMobile = createSelector(
+    selectRawgFeature,
+    (state: State) => state.isMobile
+);
