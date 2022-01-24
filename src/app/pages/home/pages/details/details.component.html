@@ -31,7 +31,7 @@
                     [vendors]="details.vendors"
                 ></app-add-buy-buttons>
 
-                <app-ratings [ratings]="details.ratings"></app-ratings>
+                <app-ratings *ngIf="details.ratings.length > 0" [ratings]="details.ratings"></app-ratings>
             </div>
         </div>
         <div [ngClass]="{ skeleton: (gameDetailsLoading$ | async) }" class="col-span-2 z-10">

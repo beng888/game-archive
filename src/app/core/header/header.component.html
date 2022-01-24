@@ -65,7 +65,7 @@
                 <div
                     [ngClass]="{ 'group-focus-within:grid': searchResultsOpen || loadingSearch }"
                     *ngIf="searchResults || loadingSearch"
-                    class="left-0 absolute bg-gray-500 mt-2 rounded-md overflow-hidden hidden delay-1000 w-full"
+                    class="left-0 absolute bg-gray-600 mt-2 rounded-md overflow-hidden hidden delay-1000 w-full"
                 >
                     <div *ngIf="loadingSearch" class="h-40 grid place-content-center"><div class="lds-hourglass"></div></div>
 
@@ -76,7 +76,7 @@
                         <div
                             (click)="selectSearchResult(res.slug)"
                             *ngFor="let res of searchResults"
-                            class="hover:bg-gray-600 duration-300 flex gap-2 px-1 sm:px-3 py-1 cursor-pointer items-center"
+                            class="hover:bg-gray-500 duration-300 flex gap-2 px-1 sm:px-3 py-1 cursor-pointer items-center"
                         >
                             <img
                                 src="{{ getImage(res.background_image, 'always-small') }}"
