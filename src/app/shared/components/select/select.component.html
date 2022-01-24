@@ -44,7 +44,7 @@
 
                     <ng-template #mobile>
                         <p
-                            *ngFor="let clickable of [options2 && option[options2].length === 1]"
+                            *ngFor="let clickable of [(options2 && option[options2].length === 1) || !options2]"
                             click-stop-propagation
                             (click)="
                                 clickable && onSelect(select_1[0], option[select_1[1]], option[select_1[2]]);

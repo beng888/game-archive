@@ -12,12 +12,7 @@ import { selectCurrentRoute } from 'src/app/store/selectors/router.selectors';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import {
-    filter,
-    debounceTime,
-    distinctUntilChanged,
-    tap,
-} from 'rxjs/operators';
+import { filter, debounceTime, tap } from 'rxjs/operators';
 import { RawgService } from '@core/services/rawg.service';
 import { Game, Res } from '@core/interfaces/rawg';
 import { getImage } from '@shared/helpers/functions';
@@ -33,6 +28,7 @@ export class HeaderComponent implements OnInit {
     public menuOpen: boolean = false;
     public searchResultsOpen: boolean = false;
     public loadingSearch: boolean = false;
+    public hasSearchQuery: boolean = false;
     public windowScrolled!: boolean;
     public route = this.store.select(selectCurrentRoute);
     public searchResults: Array<Game> | null = null;
@@ -77,12 +73,14 @@ export class HeaderComponent implements OnInit {
     //   return f.value.search;
     // }, 1000);
 
-    onKeyUp = ($event: any) => {
+    onInput = ($event: any) => {
         const { value } = $event.target;
         if (value === '') {
             this.searchResults = null;
             this.searchCount = null;
         }
+        if (value.length <= 2) this.hasSearchQuery = false;
+        if (value.length > 2) this.hasSearchQuery = true;
         this.searchInputValue$.next(value);
     };
 
@@ -102,17 +100,21 @@ export class HeaderComponent implements OnInit {
         this.searchInputValue$
             .pipe(
                 filter((res) => res.length > 2),
-                debounceTime(700),
-                tap(() => (this.loadingSearch = true)),
-                distinctUntilChanged()
+                debounceTime(1000),
+                tap(() => (this.loadingSearch = true))
+                // distinctUntilChanged()
             )
-            .subscribe((s) =>
-                this.service.getSearchResults(s).subscribe((S: Res<Game>) => {
-                    this.searchResults = S.results;
-                    this.searchCount = S.count;
-                    this.loadingSearch = false;
-                })
-            );
+            .subscribe((s) => {
+                if (!this.hasSearchQuery) this.loadingSearch = false;
+                if (this.hasSearchQuery)
+                    this.service
+                        .getSearchResults(s)
+                        .subscribe((S: Res<Game>) => {
+                            this.searchResults = S.results;
+                            this.searchCount = S.count;
+                            this.loadingSearch = false;
+                        });
+            });
     }
 
     constructor(
