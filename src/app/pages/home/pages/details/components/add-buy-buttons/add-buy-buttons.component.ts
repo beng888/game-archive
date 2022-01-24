@@ -15,6 +15,8 @@ export class AddBuyButtonsComponent implements OnInit {
     @Input() stores!: Store[];
     @Input() vendors!: Vendor[];
 
+    public openBuyButton: boolean = false;
+
     getLink = (id: number) =>
         window.open(this.vendors.find((a) => a.store_id === id)?.url);
     ngOnInit(): void {}

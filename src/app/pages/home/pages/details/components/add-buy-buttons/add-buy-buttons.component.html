@@ -16,16 +16,18 @@
 
     <button class="group min-h-full relative flex-1 h-14">
         <div
+            (click)="openBuyButton = !openBuyButton"
             class="text-white bg-purple-400 rounded-md h-full flex items-center justify-center hover:brightness-110 duration-300 font-bold"
         >
             BUY NOW
             <!-- <span class="material-icons">double_arrow</span> <span class="material-icons">store</span> -->
         </div>
         <div
-            class="absolute hidden group-focus:grid focus-within:grid border-2 border-purple-400 bg-gray-700 rounded-md w-full -bottom-1 left-0 gap-2 translate-y-full z-10"
+            [ngClass]="openBuyButton ? 'grid' : 'hidden'"
+            class="absolute border-2 border-purple-400 bg-gray-700 rounded-md w-full -bottom-1 left-0 gap-2 translate-y-full z-10"
         >
             <div
-                (click)="getLink(store.store.id)"
+                (click)="getLink(store.store.id); openBuyButton = false"
                 *ngFor="let store of stores"
                 class="hover:bg-purple-400 hover:text-white duration-300 px-2 py-1 flex items-center text-gray-400 gap-4 justify-center"
             >

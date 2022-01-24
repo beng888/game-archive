@@ -11,6 +11,7 @@ import { hideScrollToTop } from '@store/actions/rawg.actions';
 import { State } from '@store/reducers/rawg.reducer';
 import { Appstate } from '@store/index';
 import { Store } from '@ngrx/store';
+import { selectPlatformsFilter } from '@store/selectors/rawg.selectors';
 
 @Component({
     selector: 'app-game-info',
@@ -28,10 +29,21 @@ export class GameInfoComponent implements OnInit {
         this.activeImage = null;
     }
 
+    public platformFilter = this.store.select(selectPlatformsFilter);
+
     public loadedImages: number[] = [];
 
     hideOrShowScroller = (bool: boolean) =>
         this.store.dispatch(hideScrollToTop(bool));
+
+    getLogos = (filter: any) => {
+        const platformSlugs = this.info.platforms.map(
+            (p: any) => p.platform.slug
+        );
+        return filter.filter((f: any) =>
+            f.platforms.some((s: any) => platformSlugs.includes(s.slug))
+        );
+    };
 
     getColor = getColor;
     getImage = getImage;

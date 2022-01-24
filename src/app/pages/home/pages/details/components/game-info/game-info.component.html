@@ -7,10 +7,10 @@
     <div class="flex py-6 pb-2 gap-2 items-center">
         <div class="flex gap-2">
             <img
-                *ngFor="let platform of info?.parent_platforms"
-                title="{{ platform?.platform?.name }}"
-                src="assets/images/{{ platform?.platform?.slug }}.svg"
-                alt="{{ platform?.platform?.name }}"
+                *ngFor="let platform of getLogos(platformFilter | async)"
+                title="{{ platform?.name }}"
+                src="assets/images/{{ platform?.slug }}.svg"
+                alt="{{ platform?.name }}"
                 class="h-3"
             />
         </div>
