@@ -50,12 +50,6 @@ export class HomeComponent implements OnInit {
         );
 
         this.view = localStorage.getItem('GameArchiveView') || 'grid_view';
-        // console.log((this.params = this.route.snapshot.params));
-        // this.route.params.subscribe((p) => {
-        //   if (Object.keys(p)?.length > 0) {
-        //     console.log(p);
-        //   }
-        // });
     }
 
     constructor(private store: Store<Appstate>, private route: ActivatedRoute) {

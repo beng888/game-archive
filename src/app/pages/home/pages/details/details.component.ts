@@ -20,11 +20,7 @@ export class DetailsComponent implements OnInit {
     getColor = getColor;
 
     Array = Array;
-    ngOnInit(): void {
-        this.store
-            .pipe(select(selectGameDetails))
-            .subscribe((s) => console.log('%c⧭', 'color: white', s));
-    }
+    ngOnInit(): void {}
 
     constructor(private store: Store<Appstate>) {}
 }

@@ -76,7 +76,7 @@ export class HeaderComponent implements OnInit {
     // search = debounce(function (f) {
     //   return f.value.search;
     // }, 1000);
-    console = console;
+
     onKeyUp = ($event: any) => {
         const { value } = $event.target;
         if (value === '') {

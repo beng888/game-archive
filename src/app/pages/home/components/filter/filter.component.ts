@@ -115,7 +115,6 @@ export class FilterComponent implements OnInit {
 
     selectFilter(data: { key: string; value: string }) {
         const { key, value } = data;
-        console.log('%c%s', 'color: #731d1d', key);
 
         const unnecessaryParam = () => {
             if (key === 'parent_platforms') return 'platforms';
