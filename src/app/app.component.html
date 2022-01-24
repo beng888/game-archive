@@ -2,7 +2,7 @@
 <ff-alerts></ff-alerts>
 
 <div class="min-h-screen">
-    <router-outlet></router-outlet>
+    <router-outlet (activate)="onActivate($event)"></router-outlet>
 </div>
 
 <app-footer></app-footer>

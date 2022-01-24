@@ -20,13 +20,15 @@ export const getImage = (image: string, size?: string) => {
                 : '',
     };
 
-    if (image.includes('media/games'))
+    if (image?.includes('media/games'))
         return image.replace('media/games', `media/${resize.games}games`);
-    if (image.includes('media/screenshots'))
+    if (image?.includes('media/screenshots'))
         return image.replace(
             'media/screenshots',
             `media/${resize.screenshots}screenshots`
         );
+    if (!image) return 'assets/images/no-image.jpg';
+
     return image;
 };
 

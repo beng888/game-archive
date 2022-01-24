@@ -1,4 +1,10 @@
-<div #head class="sm:h-16 bg-gradient-to-br from-primary-700 to-primary-600" *ngIf="route | async as route">
+<div
+    tabindex="0"
+    (blur)="menuOpen = false"
+    #head
+    class="sm:h-16 bg-gradient-to-br from-primary-700 to-primary-600"
+    *ngIf="route | async as route"
+>
     <div class="max-w-screen-2xl mx-auto flex items-center h-full px-2 md:px-4 py-2 sm:py-0 gap-2 justify-between text-white">
         <span (click)="menuOpen = !menuOpen" class="material-icons cursor-pointer text-4xl sm:hidden">{{
             !menuOpen ? "menu" : "close"
@@ -36,45 +42,61 @@
             </div>
             <form
                 autocomplete="off"
+                tabindex="0"
                 #f="ngForm"
                 #search
                 (ngSubmit)="onSubmit(f)"
                 novalidate
-                class="absolute w-full z-50 px-4"
+                class="absolute w-full z-50 px-4 group"
                 [ngClass]="{ 'opacity-0 pointer-events-none': !searching }"
             >
                 <input
                     name="search"
                     class="form-control"
                     ngModel
+                    (focus)="searchResultsOpen = true"
                     required
-                    (keyup)="onKeyUp($event)"
+                    (input)="onKeyUp($event); console.log('change')"
                     #searchInput
                     minlength="4"
                     placeholder="Search Games"
-                    class="bg-gray-700 p-2 px-4 rounded-full outline-none hover:text-black hover:bg-gray-100 focus:text-black focus:bg-gray-100 duration-500 w-full placeholder-current peer"
+                    class="bg-gray-700 p-2 px-4 rounded-full outline-none hover:text-black hover:bg-gray-100 focus:text-black focus:bg-gray-100 duration-500 w-full placeholder-current"
                 />
+                <div
+                    [ngClass]="{ 'group-focus-within:grid': searchResultsOpen || loadingSearch }"
+                    *ngIf="searchResults || loadingSearch"
+                    class="left-0 absolute bg-gray-500 mt-2 rounded-md overflow-hidden hidden delay-1000 w-full"
+                >
+                    <div *ngIf="loadingSearch" class="h-40 grid place-content-center"><div class="lds-hourglass"></div></div>
 
-                <div *ngIf="searchResults" class="absolute bg-black p-3 mt-2 gap-1 rounded-sm hidden peer-focus:grid">
-                    <a
-                        (click)="selectSearchResult(res.slug)"
-                        *ngFor="let res of searchResults"
-                        class="hover:bg-gray-600 duration-300 flex gap-2 cursor-pointer items-center"
-                    >
-                        <img src="{{ getImage(res.background_image, 'small') }}" alt="{{ res.background_image }}" class="w-12 h-12" />
-                        <div>
-                            <div class="flex gap-2">
-                                <img
-                                    title="{{ platform.platform.name }}"
-                                    *ngFor="let platform of res.parent_platforms"
-                                    src="assets/images/{{ platform.platform.slug }}.svg"
-                                    alt="{{ platform.platform.name }}"
-                                    class="h-3"
-                                />
+                    <p *ngIf="searchCount && !loadingSearch" class="px-1 sm:px-3 py-2 tracking-widest font-semibold">
+                        Games {{ searchCount }}
+                    </p>
+                    <ng-container *ngIf="!loadingSearch">
+                        <div
+                            (click)="selectSearchResult(res.slug)"
+                            *ngFor="let res of searchResults"
+                            class="hover:bg-gray-600 duration-300 flex gap-2 px-1 sm:px-3 py-1 cursor-pointer items-center"
+                        >
+                            <img
+                                src="{{ getImage(res.background_image, 'always-small') }}"
+                                alt="{{ res.background_image }}"
+                                class="w-12 h-full object-cover rounded-md"
+                            />
+                            <div class="py-1">
+                                <div class="flex gap-2">
+                                    <img
+                                        title="{{ platform.platform.name }}"
+                                        *ngFor="let platform of res.parent_platforms"
+                                        src="assets/images/{{ platform.platform.slug }}.svg"
+                                        alt="{{ platform.platform.name }}"
+                                        class="h-3"
+                                    />
+                                </div>
+                                <p>{{ res.name }}</p>
                             </div>
-                            <p>{{ res.name }}</p>
                         </div>
-                    </a>
+                    </ng-container>
                 </div>
             </form>
         </div>

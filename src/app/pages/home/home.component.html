@@ -44,8 +44,13 @@
                 </ng-template>
             </ng-container>
         </div>
-        <div *ngIf="nextGamesPageLoading$ | async" class="text-white text-center bg-gray-600 rounded-md w-60 mx-auto mt-8">
-            <div ellipsisLoader></div>
+        <div class="relative my-8">
+            <div
+                *ngIf="nextGamesPageLoading$ | async"
+                class="absolute inset-x-0 text-white text-center bg-gray-600 rounded-md w-60 mx-auto"
+            >
+                <div ellipsisLoader></div>
+            </div>
         </div>
     </div>
 </div>

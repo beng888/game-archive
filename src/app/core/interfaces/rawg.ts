@@ -1,4 +1,5 @@
 export interface Res<T> {
+    count: number;
     next: string | null;
     results: Array<T>;
     related_tags: Tag[];
