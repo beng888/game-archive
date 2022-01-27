@@ -8,6 +8,7 @@ export const rawgFeatureKey = 'rawg';
 
 export interface State {
     games: res.Game[];
+    details_description: string | null;
     browse: res.Browse[];
     genres: res.List[];
     parent_platforms: res.List[] | any;
@@ -56,6 +57,7 @@ export interface State {
 
 export const initialState: State = {
     games: [],
+    details_description: null,
     browse: [],
     genres: [],
     parent_platforms: [],
@@ -116,16 +118,20 @@ export const reducer = createReducer(
             genres: results,
         };
     }),
-
     on(fromRawgActions.loadGamesSuccess, (state, action) => {
         return {
             ...state,
-            games: action.results || [],
+            games: action.results || state.games || [],
             ...action,
+            details_description: action.slug ? action.description : null,
             loadNextGamesPage: action.next,
-            description: action.description || '',
+            description: !action.description
+                ? null
+                : !action.slug
+                ? action.description
+                : state.description,
             seo_description: action.seo_description || '',
-            seo_h1: action.seo_h1 || '',
+            seo_h1: !action.seo_h1 ? null : action.seo_h1 || state.seo_h1,
             parent_platforms: state.parent_platforms,
         };
     }),

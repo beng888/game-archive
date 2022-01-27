@@ -11,6 +11,7 @@ import { readMoreDirective } from './directives/readMore.directive';
 import { EllipsisLoaderDirective } from './directives/ellipsis-loader.directive';
 import { FooterComponent } from './components/footer/footer.component';
 import { ClickStopPropagation } from './directives/click-stop-propagation.directive';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 @NgModule({
     declarations: [
@@ -23,6 +24,7 @@ import { ClickStopPropagation } from './directives/click-stop-propagation.direct
         EllipsisLoaderDirective,
         FooterComponent,
         ClickStopPropagation,
+        PageNotFoundComponent,
     ],
     imports: [CommonModule, FormsModule, RouterModule],
     exports: [

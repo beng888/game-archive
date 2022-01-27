@@ -46,28 +46,22 @@ export class SelectComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes?.placeHolder?.currentValue === 'Tags')
-            console.log(
-                '%c⧭',
-                'color: #f27999',
-                changes?.options?.currentValue
+        const Q = this.route.snapshot.queryParams;
+
+        const [key1, value1] = this.select_1;
+        if (!this.select_2 && Q[key1]) {
+            const match = this.options.find(
+                (opt: any) => opt.slug === Q[key1] || String(opt.id) === Q[key1]
             );
+
+            if (this.selected !== match?.name)
+                return (this.selected = match?.name);
+        }
     }
 
     ngOnInit(): void {
         /* ------------------------ GET SELECTED BASED ON URL ----------------------- */
         this.route.queryParams.subscribe((S) => {
-            // const [key1, value1] = this.select_1;
-            // if (!this.select_2 && S[key1]) {
-            //     const match = this.options.find(
-            //         (opt: any) =>
-            //             opt.slug === S[key1] || String(opt.id) === S[key1]
-            //     );
-            //     if (this.placeHolder === 'Tags')
-            //         console.log('%c⧭', 'color: #f27999', match?.name);
-            //     return (this.selected = match?.name);
-            // }
-
             if (
                 (this.select_2 && Object.keys(S).includes(this.select_2[0])) ||
                 Object.keys(S).includes(this.select_1[0])
@@ -97,7 +91,7 @@ export class SelectComponent implements OnInit, OnChanges {
                 );
 
                 this.selected =
-                    this.select_1[0] === 'dates' ? year : match?.['name'];
+                    this.select_1[0] === 'dates' ? year : match?.name || null;
             }
         });
     }

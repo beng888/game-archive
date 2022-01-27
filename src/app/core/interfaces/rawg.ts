@@ -9,6 +9,7 @@ export interface Res<T> {
     seo_keywords: string;
     seo_title: string;
     filters: RawgFilters;
+    slug: string | null;
 }
 
 export interface RawgFilters {

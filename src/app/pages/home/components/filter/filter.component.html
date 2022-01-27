@@ -1,6 +1,6 @@
 <div class="max-w-6xl mx-auto my-4">
     <div [ngClass]="{ skeleton: loading }">
-        <div *ngIf="!loading">
+        <div *ngIf="hasQueryParams">
             <p class="text-4xl font-bold text-white mb-2">{{ title$ | async }}</p>
 
             <div readMore [innerText]="description$ | async"></div>

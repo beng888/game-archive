@@ -41,3 +41,13 @@ export const getColor = (value: number): string => {
 };
 
 export const getLoadType = (type: string) => type.split(':')[0];
+
+export const generateYearsBetween = (startYear = 2000, endYear?: any) => {
+    const endDate = endYear || new Date().getFullYear();
+    let years = [];
+    for (var i = startYear; i <= endDate; i++) {
+        years.push(startYear);
+        startYear++;
+    }
+    return years;
+};

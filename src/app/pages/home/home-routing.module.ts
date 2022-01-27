@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { PageNotFoundComponent } from '@shared/components/page-not-found/page-not-found.component';
 import { HomeComponent } from './home.component';
 
 const routes: Routes = [
@@ -15,6 +16,8 @@ const routes: Routes = [
                 (m) => m.DetailsModule
             ),
     },
+
+    { path: '**', pathMatch: 'full', component: PageNotFoundComponent },
 ];
 
 @NgModule({

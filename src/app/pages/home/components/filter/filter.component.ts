@@ -34,6 +34,7 @@ export class FilterComponent implements OnInit {
     public selectedList: string | null = null;
     public listSelect: boolean = false;
     public hasParams: boolean = false;
+    public hasQueryParams: boolean = false;
     public description$!: Observable<string | null>;
     public title$!: Observable<string | null>;
     public readMore: boolean = false;
@@ -88,6 +89,10 @@ export class FilterComponent implements OnInit {
         this.route.params.subscribe((s) => {
             if (s.slug) return (this.hasParams = true);
             return (this.hasParams = false);
+        });
+
+        this.route.queryParams.subscribe((s) => {
+            this.hasQueryParams = Object.keys(s).length > 0;
         });
 
         this.route.params.subscribe((S) => {

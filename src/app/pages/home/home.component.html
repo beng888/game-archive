@@ -1,7 +1,7 @@
+<app-calendar *ngIf="isCalender"></app-calendar>
+
 <div class="px-4">
     <app-filter [loading]="gamesLoading$ | async"></app-filter>
-
-    <app-calendar *ngIf="isCalender"></app-calendar>
 
     <div *ngIf="games$ | async as games">
         <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between mt-4 mb-8 gap-4 text-white z-20">
