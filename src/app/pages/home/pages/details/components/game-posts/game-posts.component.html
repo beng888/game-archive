@@ -14,9 +14,9 @@
                 <span>{{ post.created | date }}</span>
             </div>
 
-            <div>
+            <div class="w-full overflow-hidden">
                 <img *ngIf="post.image" src="{{ post.image }}" alt="{{ post.image }}" />
-                <p [innerHTML]="post.text"></p>
+                <p class="max-w-full" [innerHTML]="post.text"></p>
             </div>
 
             <a href="{{ post.url }}" target="blank" class="text-xl link font-semibold">Read Full Story >></a>

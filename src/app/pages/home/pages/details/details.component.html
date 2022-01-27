@@ -8,7 +8,7 @@
     </div>
 
     <div class="grid grid-cols-2 lg:grid-cols-3 mt-8 gap-4 max-w-7xl mx-auto">
-        <div class="col-span-2 lg:col-span-1">
+        <div class="col-span-2 lg:col-span-1 px-1">
             <div class="sticky top-4 max-w-2xl mx-auto">
                 <!-- <div
                     *ngIf="gameDetailsLoading$ | async; else media"
@@ -34,7 +34,7 @@
                 <app-ratings *ngIf="details.ratings.length > 0" [ratings]="details.ratings"></app-ratings>
             </div>
         </div>
-        <div [ngClass]="{ skeleton: (gameDetailsLoading$ | async) }" class="col-span-2 z-10">
+        <div [ngClass]="{ skeleton: (gameDetailsLoading$ | async) }" class="col-span-2 z-10 px-1">
             <app-game-info [info]="details"></app-game-info>
             <app-game-posts
                 *ngIf="Array.isArray(details.reddit_posts) && details.reddit_posts.length"
