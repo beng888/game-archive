@@ -22,7 +22,7 @@ export class GameCardComponent {
         this.screenshot = i;
     }
 
-    selectGenre(genres: number | undefined) {
+    selectGenre(genres: string | undefined) {
         this.router.navigate(['games'], {
             // relativeTo: this.route,
             queryParams: { genres },

@@ -5,6 +5,8 @@ import {
     Input,
     Output,
     EventEmitter,
+    OnChanges,
+    SimpleChanges,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { select, Store } from '@ngrx/store';
@@ -15,9 +17,8 @@ import { Appstate } from 'src/app/store';
 @Component({
     selector: 'app-select',
     templateUrl: './select.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SelectComponent implements OnInit {
+export class SelectComponent implements OnInit, OnChanges {
     @Input() placeHolder: string = '';
     @Input() options!: any;
     @Input() label_1!: string[];
@@ -44,9 +45,29 @@ export class SelectComponent implements OnInit {
         this.selectFilter.emit({ key, value });
     }
 
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes?.placeHolder?.currentValue === 'Tags')
+            console.log(
+                '%c⧭',
+                'color: #f27999',
+                changes?.options?.currentValue
+            );
+    }
+
     ngOnInit(): void {
         /* ------------------------ GET SELECTED BASED ON URL ----------------------- */
         this.route.queryParams.subscribe((S) => {
+            // const [key1, value1] = this.select_1;
+            // if (!this.select_2 && S[key1]) {
+            //     const match = this.options.find(
+            //         (opt: any) =>
+            //             opt.slug === S[key1] || String(opt.id) === S[key1]
+            //     );
+            //     if (this.placeHolder === 'Tags')
+            //         console.log('%c⧭', 'color: #f27999', match?.name);
+            //     return (this.selected = match?.name);
+            // }
+
             if (
                 (this.select_2 && Object.keys(S).includes(this.select_2[0])) ||
                 Object.keys(S).includes(this.select_1[0])

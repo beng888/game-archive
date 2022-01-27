@@ -14,7 +14,7 @@
         </div>
     </button> -->
 
-    <button class="group min-h-full relative flex-1 h-14">
+    <button tabindex="0" (blur)="openBuyButton = false" class="group min-h-full relative flex-1 h-14">
         <div
             (click)="openBuyButton = !openBuyButton"
             class="text-white bg-purple-400 rounded-md h-full flex items-center justify-center hover:brightness-110 duration-300 font-bold"

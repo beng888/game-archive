@@ -61,7 +61,7 @@
             <div class="flex justify-between border-b py-2">
                 <span class="text-gray-500"> Genres: </span>
                 <div>
-                    <span class="link_ cursor-pointer" (click)="selectGenre(genre.id)" *ngFor="let genre of game.genres; last as L">
+                    <span class="link_ cursor-pointer" (click)="selectGenre(genre.slug)" *ngFor="let genre of game.genres; last as L">
                         {{ genre.name }}{{ L ? "" : "," }}
                     </span>
                 </div>
@@ -107,7 +107,7 @@
                 <div class="px-2">
                     <span class="text-gray-400"> Genres: </span>
                     <span>
-                        <span class="link_ cursor-pointer" (click)="selectGenre(genre.id)" *ngFor="let genre of game.genres; last as L">
+                        <span class="link_ cursor-pointer" (click)="selectGenre(genre.slug)" *ngFor="let genre of game.genres; last as L">
                             {{ genre.name }}{{ L ? "" : "," }}
                         </span>
                     </span>
@@ -153,7 +153,7 @@
                 <span class="text-gray-500 flex gap-4">
                     Genres:
                     <span>
-                        <span class="link_ cursor-pointer" (click)="selectGenre(genre.id)" *ngFor="let genre of game.genres; last as L">
+                        <span class="link_ cursor-pointer" (click)="selectGenre(genre.slug)" *ngFor="let genre of game.genres; last as L">
                             {{ genre.name }}{{ L ? "" : "," }}
                         </span>
                     </span>
