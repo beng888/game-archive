@@ -34,7 +34,7 @@
                 <app-ratings *ngIf="details.ratings.length > 0" [ratings]="details.ratings"></app-ratings>
             </div>
         </div>
-        <div [ngClass]="{ skeleton: (gameDetailsLoading$ | async) }" class="col-span-2 z-10 px-1">
+        <div [ngClass]="{ skeleton: (gameDetailsLoading$ | async) }" class="col-span-2 z-10 px-1 z-30">
             <app-game-info [info]="details"></app-game-info>
             <app-game-posts
                 *ngIf="Array.isArray(details.reddit_posts) && details.reddit_posts.length"
